@@ -13,11 +13,12 @@ private:
 	void ProcessInput();
 	void UpdateGame();
 	void GenerateOutput();
-
-	// member variables
+	bool LoadShaders();
+	// game objects
 	SDL_Window* mWindow;
-	SDL_Renderer* mRenderer;
+	SDL_GLContext mContext;
 	const Uint8* mKeyboardState;
 	Uint8 mTickCount;
+	class Shader* mShader;
 	bool mIsRunning;
 };

@@ -10,14 +10,38 @@ bool Game::Initialize() {
 		SDL_Log("Failed initializing SDL: %s\n", SDL_GetError());
 		return 0;
 	}
+	// use core opengl profile
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+	// version 3.3
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 3);
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 3);
+	// color buffer with 8 bits per channel
+	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 8);
+	SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 8);
+	// double buffering
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
+	// hardware acceleration
+	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 	// create sdl window
-	mWindow = SDL_CreateWindow("Carl's Fantastic Ball Game", 0, 50, 1024, 768, 0);
+	mWindow = SDL_CreateWindow("Carl's Fantastic Ball Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 768, SDL_WINDOW_OPENGL);
 	if (!mWindow) {
 		SDL_Log("Failed creating window: %s\n", SDL_GetError());
 		return 0;
 	}
-	// initialize renderer
-	mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
+	// opengl context
+	mContext = SDL_GL_CreateContext(mWindow);
+	// initialize glew
+	glewExperimental = GL_TRUE; // prevents unnecessary errors on some platforms
+	if (glewInit() != GLEW_OK) {
+		SDL_Log("Failed initializing GLEW");
+		return 0;
+	}
+	glGetError(); // clear insignificant error codes
+	// load shaders
+	if (!LoadShaders()) return 0;
+	// allow program to run
 	mIsRunning = 1;
 	return 1;
 }
@@ -32,7 +56,7 @@ void Game::RunLoop() {
 }
 
 void Game::Shutdown() {
-	SDL_DestroyRenderer(mRenderer);
+	SDL_GL_DeleteContext(mContext);
 	SDL_DestroyWindow(mWindow);
 	SDL_Quit();
 }
@@ -63,10 +87,18 @@ void Game::UpdateGame() {
 }
 
 void Game::GenerateOutput() {
-	// set color
-	SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
-	// clear buffer
-	SDL_RenderClear(mRenderer);
+	// set clear color to black
+	glClearColor(0.f, 0.f, 0.f, 1.f);
+	// clear color buffer
+	glClear(GL_COLOR_BUFFER_BIT);
+
 	// swap buffers
-	SDL_RenderPresent(mRenderer);
+	SDL_GL_SwapWindow(mWindow);
+}
+
+bool Game::LoadShaders() {
+	mShader = new Shader();
+	if (!mShader->Load("Basic.vert", "Basic.frag")) return 0;
+	mShader->SetActive();
+	return 1;
 }
