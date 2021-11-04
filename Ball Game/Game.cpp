@@ -43,6 +43,19 @@ bool Game::Initialize() {
 	if (!LoadShaders()) return 0;
 	// allow program to run
 	mIsRunning = 1;
+	
+	float vertexBuffer[] = {
+		-0.5f, 0.5f, 0.0f,
+		0.5f, 0.5f, 0.0f,
+		0.5f, -0.5f, 0.0f,
+		-0.5f, -0.5f, 0.0f
+	};
+	uint indexBuffer[] = {
+		0,1,2,
+		2,3,0
+	};
+	mVA = new VertexArray(vertexBuffer, 4, indexBuffer, 6);
+
 	return 1;
 }
 
@@ -91,7 +104,10 @@ void Game::GenerateOutput() {
 	glClearColor(0.f, 0.f, 0.f, 1.f);
 	// clear color buffer
 	glClear(GL_COLOR_BUFFER_BIT);
-
+	// activate vertex array
+	mShader->SetActive();
+	mVA->SetActive();
+	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 	// swap buffers
 	SDL_GL_SwapWindow(mWindow);
 }

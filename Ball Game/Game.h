@@ -20,5 +20,6 @@ private:
 	const Uint8* mKeyboardState;
 	Uint8 mTickCount;
 	class Shader* mShader;
+	class VertexArray* mVA;
 	bool mIsRunning;
 };
