@@ -44,7 +44,7 @@ bool Game::Initialize() {
 	// allow program to run
 	mIsRunning = 1;
 	
-	float vertexBuffer[] = {
+	float vertexBuffer[] = { // square
 		-0.5f, 0.5f, 0.0f,
 		0.5f, 0.5f, 0.0f,
 		0.5f, -0.5f, 0.0f,

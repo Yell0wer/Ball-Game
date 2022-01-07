@@ -10,6 +10,7 @@ typedef unsigned int uint;
 // other libraries
 #include "SDL.h"
 #include "glew.h"
+#include "Math.h"
 
 // headers
 #include "Game.h"
