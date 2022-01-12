@@ -23,7 +23,7 @@ private:
 	const Uint8* mKeyboardState;
 	Uint8 mTickCount;
 	class Shader* mShader;
-	class VertexArray* mVA;
+	class VertexArray* mSquare;
 	bool mIsRunning;
 	std::vector<class Actor*> mActors;
 	std::vector<class Actor*> mPending;

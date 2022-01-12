@@ -11,11 +11,12 @@ public:
 	virtual void SetTexture(class Texture* texture);
 
 	int GetDrawOrder() const { return mDrawOrder; }
-	std::pair<int, int> GetTexDim() const { return mTexDim; }
+	int GetTexWidth() const { return mTexWidth; }
+	int GetTexHeight() const { return mTexHeight; }
 
 private:
 	class Texture* mTexture;
 	int mDrawOrder;
-	std::pair<int, int> mTexDim;
+	int mTexWidth, mTexHeight;
 };
 

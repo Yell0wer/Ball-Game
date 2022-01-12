@@ -46,17 +46,19 @@ bool Game::Initialize()
 	// allow program to run
 	mIsRunning = 1;
 	
-	float vertexBuffer[] = { // square
-		-0.5f, 0.5f, 0.0f,
-		0.5f, 0.5f, 0.0f,
-		0.5f, -0.5f, 0.0f,
-		-0.5f, -0.5f, 0.0f
+	float v[] = {
+		-0.5f,  0.5f, 0.f, 0.f, 0.f, // top left
+		 0.5f,  0.5f, 0.f, 1.f, 0.f, // top right
+		 0.5f, -0.5f, 0.f, 1.f, 1.f, // bottom right
+		-0.5f, -0.5f, 0.f, 0.f, 1.f  // bottom left
 	};
-	uint indexBuffer[] = {
-		0,1,2,
-		2,3,0
+	unsigned int i[] = {
+		0, 1, 2,
+		2, 3, 0
 	};
-	mVA = new VertexArray(vertexBuffer, 4, indexBuffer, 6);
+	mSquare = new VertexArray(v, 4, i, 6);
+
+	mActors.push_back(new Actor(this));
 
 	return 1;
 }
@@ -120,8 +122,8 @@ void Game::GenerateOutput()
 	glClear(GL_COLOR_BUFFER_BIT);
 	// activate vertex array
 	mShader->SetActive();
-	mVA->SetActive();
-	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+	mSquare->SetActive();
+	for (class Actor* a : mActors) a->Draw();
 	// swap buffers
 	SDL_GL_SwapWindow(mWindow);
 }
@@ -131,6 +133,6 @@ bool Game::LoadShaders()
 	mShader = new Shader();
 	if (!mShader->Load("Basic.vert", "Basic.frag")) return 0;
 	mShader->SetActive();
-	mShader->SetMatrixUniform("uViewProj", Matrix4::CreateSimpleViewProj(1024.f, 768.f));
+	mShader->SetMatrixUniform("uViewTransform", Matrix4::CreateSimpleViewProj(1024.f, 768.f));
 	return 1;
 }

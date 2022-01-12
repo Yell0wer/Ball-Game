@@ -12,10 +12,11 @@ public:
 
 	void SetActive();
 
-	std::pair<int, int> GetDim() const { return mDim; }
+	int GetWidth() const { return mWidth; }
+	int GetHeight() const { return mHeight; }
 
 private:
 	unsigned int mID;
-	std::pair<int, int> mDim;
+	int mWidth, mHeight;
 };
 

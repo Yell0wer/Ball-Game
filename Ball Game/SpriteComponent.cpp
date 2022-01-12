@@ -2,18 +2,21 @@
 
 SpriteComponent::SpriteComponent(Actor* owner, int order) : 
 	Component(owner),
-	mTexture(nullptr),
+	mTexture(new Texture()),
 	mDrawOrder(order),
-	mTexDim({0, 0})
-{}
+	mTexWidth(0),
+	mTexHeight(0)
+{
+	mTexture->Load("char.png");
+	SetTexture(mTexture);
+}
 
 SpriteComponent::~SpriteComponent() {}
 
 void SpriteComponent::Draw(Shader* shader)
 {
 	if (!mTexture) return;
-	Matrix4 s = Matrix4::CreateScale(static_cast<float>(mTexDim.first), static_cast<float>(mTexDim.second), 1.f);
-	Matrix4 w = s * mOwner->GetWorldTransform();
+	Matrix4 w = Matrix4::CreateScale(static_cast<float>(mTexWidth), static_cast<float>(mTexHeight), 1.f) * mOwner->GetWorldTransform();
 
 	shader->SetMatrixUniform("uWorldTransform", w);
 	mTexture->SetActive();
@@ -23,5 +26,6 @@ void SpriteComponent::Draw(Shader* shader)
 void SpriteComponent::SetTexture(Texture* texture)
 {
 	mTexture = texture;
-	mTexDim = texture->GetDim();
+	mTexWidth = mTexture->GetWidth();
+	mTexHeight = mTexture->GetHeight();
 }

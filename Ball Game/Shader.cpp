@@ -7,7 +7,7 @@ Shader::~Shader() {}
 bool Shader::Load(const std::string& vertName, const std::string& fragName)
 {
 	// compile shaders
-	if (!CompileShader(vertName, GL_VERTEX_SHADER, mSID) || !CompileShader(fragName, GL_FRAGMENT_SHADER, mFID)) return 0;
+	if (!CompileShader(vertName, GL_VERTEX_SHADER, mVID) || !CompileShader(fragName, GL_FRAGMENT_SHADER, mFID)) return 0;
 	mSID = glCreateProgram();
 	glAttachShader(mSID, mVID);
 	glAttachShader(mSID, mFID);

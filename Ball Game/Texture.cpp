@@ -4,7 +4,8 @@
 
 Texture::Texture() :
 	mID(0),
-	mDim({ 0, 0 })
+	mWidth(0),
+	mHeight(0)
 {}
 
 Texture::~Texture() {}
@@ -12,7 +13,7 @@ Texture::~Texture() {}
 bool Texture::Load(const std::string& file)
 {
 	int channels = 0;
-	unsigned char* img = SOIL_load_image(file.c_str(), &mDim.w, &mDim.h, &channels, SOIL_LOAD_AUTO);
+	unsigned char* img = SOIL_load_image(file.c_str(), &mWidth, &mHeight, &channels, SOIL_LOAD_AUTO);
 	
 	if (!img)
 	{
@@ -20,13 +21,12 @@ bool Texture::Load(const std::string& file)
 		return 0;
 	}
 
-	int format = GL_RGB;
-	if (channels == 4) format = GL_RGBA;
+	int format = channels == 4 ? GL_RGBA : GL_RGB;
 
 	glGenTextures(1, &mID);
 	glBindTexture(GL_TEXTURE_2D, mID);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, format, mDim.w, mDim.h, 0, format, GL_UNSIGNED_BYTE, img);
+	glTexImage2D(GL_TEXTURE_2D, 0, format, mWidth, mHeight, 0, format, GL_UNSIGNED_BYTE, img);
 
 	SOIL_free_image_data(img);
 

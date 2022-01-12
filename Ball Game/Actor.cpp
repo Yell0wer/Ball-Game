@@ -8,7 +8,7 @@ Actor::Actor(class Game* game) :
 	mSprite(new SpriteComponent(this)),
 	mRecompute(1)
 {
-	//mGame->AddActor(this); //TODO
+	//mGame->AddActor(this); TODO
 }
 
 Actor::~Actor() 
