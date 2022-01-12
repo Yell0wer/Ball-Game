@@ -1,13 +1,16 @@
 #pragma once
 #include "stdafx.h"
 
-class Game {
+class Game
+{
 public:
 	Game();
 	// game loop
 	bool Initialize();
 	void RunLoop();
 	void Shutdown();
+
+	class Shader* GetShader() const { return mShader; }
 private:
 	// helper functions
 	void ProcessInput();
@@ -22,4 +25,6 @@ private:
 	class Shader* mShader;
 	class VertexArray* mVA;
 	bool mIsRunning;
+	std::vector<class Actor*> mActors;
+	std::vector<class Actor*> mPending;
 };

@@ -1,12 +1,12 @@
 #include "Game.h"
 
-Game::Game() {
+Game::Game() {}
 
-}
-
-bool Game::Initialize() {
+bool Game::Initialize()
+{
 	// initialize sdl
-	if (SDL_Init(SDL_INIT_EVERYTHING)) {
+	if (SDL_Init(SDL_INIT_EVERYTHING))
+	{
 		SDL_Log("Failed initializing SDL: %s\n", SDL_GetError());
 		return 0;
 	}
@@ -26,7 +26,8 @@ bool Game::Initialize() {
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 	// create sdl window
 	mWindow = SDL_CreateWindow("Carl's Fantastic Ball Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 768, SDL_WINDOW_OPENGL);
-	if (!mWindow) {
+	if (!mWindow)
+	{
 		SDL_Log("Failed creating window: %s\n", SDL_GetError());
 		return 0;
 	}
@@ -34,7 +35,8 @@ bool Game::Initialize() {
 	mContext = SDL_GL_CreateContext(mWindow);
 	// initialize glew
 	glewExperimental = GL_TRUE; // prevents unnecessary errors on some platforms
-	if (glewInit() != GLEW_OK) {
+	if (glewInit() != GLEW_OK)
+	{
 		SDL_Log("Failed initializing GLEW");
 		return 0;
 	}
@@ -59,26 +61,32 @@ bool Game::Initialize() {
 	return 1;
 }
 
-void Game::RunLoop() {
+void Game::RunLoop()
+{
 	// game loop
-	while (mIsRunning) {
+	while (mIsRunning)
+	{
 		ProcessInput();
 		UpdateGame();
 		GenerateOutput();
 	}
 }
 
-void Game::Shutdown() {
+void Game::Shutdown()
+{
 	SDL_GL_DeleteContext(mContext);
 	SDL_DestroyWindow(mWindow);
 	SDL_Quit();
 }
 
-void Game::ProcessInput() {
+void Game::ProcessInput()
+{
 	// poll for events
 	SDL_Event event;
-	while (SDL_PollEvent(&event)) {
-		switch (event.type) {
+	while (SDL_PollEvent(&event))
+	{
+		switch (event.type)
+		{
 		case SDL_QUIT:
 			mIsRunning = false;
 			break;
@@ -88,18 +96,24 @@ void Game::ProcessInput() {
 	mKeyboardState = SDL_GetKeyboardState(NULL);
 }
 
-void Game::UpdateGame() {
-	// get delta time
+void Game::UpdateGame()
+{
+	// get delta 
 	float delta = (SDL_GetTicks() - mTickCount) / 1000.f;
 	// update tick count
 	mTickCount = SDL_GetTicks();
 	// limit framerate (15 fps)
 	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTickCount + 64));
-	// clamp delta time value
+	// clamp delta  value
 	if (delta > 0.5f) delta = 0.5f;
+	// update actors
+	for (class Actor* a : mActors) a->Update(delta);
+	for (class Actor* a : mPending) mActors.emplace_back(a);
+	mPending.clear();
 }
 
-void Game::GenerateOutput() {
+void Game::GenerateOutput()
+{
 	// set clear color to black
 	glClearColor(0.f, 0.f, 0.f, 1.f);
 	// clear color buffer
@@ -112,9 +126,11 @@ void Game::GenerateOutput() {
 	SDL_GL_SwapWindow(mWindow);
 }
 
-bool Game::LoadShaders() {
+bool Game::LoadShaders()
+{
 	mShader = new Shader();
 	if (!mShader->Load("Basic.vert", "Basic.frag")) return 0;
 	mShader->SetActive();
+	mShader->SetMatrixUniform("uViewProj", Matrix4::CreateSimpleViewProj(1024.f, 768.f));
 	return 1;
 }

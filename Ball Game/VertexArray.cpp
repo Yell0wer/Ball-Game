@@ -1,6 +1,7 @@
 #include "VertexArray.h"
 
-VertexArray::VertexArray(const float* verts, uint numVerts, const uint* indices, uint numIndices) {
+VertexArray::VertexArray(const float* verts, uint numVerts, const uint* indices, uint numIndices)
+{
 	// create vertex array
 	glGenVertexArrays(1, &mVAID);
 	glBindVertexArray(mVAID);
@@ -17,12 +18,14 @@ VertexArray::VertexArray(const float* verts, uint numVerts, const uint* indices,
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(float) * 3, 0);
 }
 
-VertexArray::~VertexArray() {
+VertexArray::~VertexArray()
+{
 	glDeleteBuffers(1, &mVBID);
 	glDeleteBuffers(1, &mIBID);
 	glDeleteVertexArrays(1, &mVAID);
 }
 
-void VertexArray::SetActive() {
+void VertexArray::SetActive()
+{
 	glBindVertexArray(mVAID);
 }

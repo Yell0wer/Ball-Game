@@ -1,7 +1,8 @@
 #pragma once
 #include "stdafx.h"
 
-class Shader {
+class Shader
+{
 public:
 	Shader();
 	~Shader();
@@ -10,6 +11,8 @@ public:
 	void Unload();
 	// set as active shader program
 	void SetActive();
+
+	void SetMatrixUniform(const char* name, const Matrix4& matrix);
 private:
 	// compile specified shader
 	bool CompileShader(const std::string& fileName, GLenum shaderType, GLuint& outShader);

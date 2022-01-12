@@ -1,7 +1,8 @@
 #pragma once
 #include "stdafx.h"
 
-class VertexArray {
+class VertexArray
+{
 public:
 	VertexArray(const float* verts, uint numVerts, const uint* indices, uint numIndices);
 	~VertexArray();

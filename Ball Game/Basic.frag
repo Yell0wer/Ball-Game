@@ -1,8 +1,13 @@
 // GLSL 3.3
 #version 330
 
+in vec2 fragTexCoord;
+// Output color for color buffer
 out vec4 outColor;
 
-void main() {
-	outColor = vec4(1.0, 1.0, 1.0, 1.0);
+uniform sampler2D uTexture;
+
+void main()
+{
+	outColor = texture(uTexture, fragTexCoord);
 }
