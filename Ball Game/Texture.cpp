@@ -1,6 +1,4 @@
-#include "Texture.h"
-#define w first
-#define h second
+#include "stdafx.h"
 
 Texture::Texture() :
 	mID(0),
@@ -30,8 +28,8 @@ bool Texture::Load(const std::string& file)
 
 	SOIL_free_image_data(img);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
 	return 1;
 }

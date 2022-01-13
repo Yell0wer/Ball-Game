@@ -1,4 +1,4 @@
-#include "Game.h"
+#include "stdafx.h"
 
 Game::Game() {}
 
@@ -58,7 +58,7 @@ bool Game::Initialize()
 	};
 	mSquare = new VertexArray(v, 4, i, 6);
 
-	mActors.push_back(new Actor(this));
+	AddActor(new Player(this));
 
 	return 1;
 }
@@ -96,6 +96,10 @@ void Game::ProcessInput()
 	}
 	// update keyboard state
 	mKeyboardState = SDL_GetKeyboardState(NULL);
+
+	mActorsUpdating = 0;
+	for (auto a : mActors) a->ProcessInput(mKeyboardState);
+	mActorsUpdating = false;
 }
 
 void Game::UpdateGame()
@@ -109,8 +113,10 @@ void Game::UpdateGame()
 	// clamp delta  value
 	if (delta > 0.5f) delta = 0.5f;
 	// update actors
-	for (class Actor* a : mActors) a->Update(delta);
-	for (class Actor* a : mPending) mActors.emplace_back(a);
+	mActorsUpdating = 1;
+	for (auto a : mActors) a->Update(delta);
+	mActorsUpdating = 0;
+	for (auto a : mPending) mActors.emplace_back(a);
 	mPending.clear();
 }
 
@@ -123,9 +129,32 @@ void Game::GenerateOutput()
 	// activate vertex array
 	mShader->SetActive();
 	mSquare->SetActive();
-	for (class Actor* a : mActors) a->Draw();
+	for (auto a : mActors) a->Draw();
 	// swap buffers
 	SDL_GL_SwapWindow(mWindow);
+}
+
+void Game::AddActor(class Actor* a)
+{
+	if (mActorsUpdating) mPending.push_back(a);
+	else mActors.push_back(a);
+}
+
+void Game::RemoveActor(class Actor* a)
+{
+	auto i = std::find(mPending.begin(), mPending.end(), a);
+	if (i != mPending.end())
+	{
+		std::iter_swap(i, mPending.end() - 1);
+		mPending.pop_back();
+	}
+
+	i = std::find(mActors.begin(), mActors.end(), a);
+	if (i != mActors.end())
+	{
+		std::iter_swap(i, mActors.end() - 1);
+		mActors.pop_back();
+	}
 }
 
 bool Game::LoadShaders()

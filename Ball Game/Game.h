@@ -1,5 +1,4 @@
 #pragma once
-#include "stdafx.h"
 
 class Game
 {
@@ -9,6 +8,9 @@ public:
 	bool Initialize();
 	void RunLoop();
 	void Shutdown();
+
+	void AddActor(class Actor* a);
+	void RemoveActor(class Actor* a);
 
 	class Shader* GetShader() const { return mShader; }
 private:
@@ -26,5 +28,6 @@ private:
 	class VertexArray* mSquare;
 	bool mIsRunning;
 	std::vector<class Actor*> mActors;
+	bool mActorsUpdating;
 	std::vector<class Actor*> mPending;
 };

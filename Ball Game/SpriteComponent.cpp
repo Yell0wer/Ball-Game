@@ -1,4 +1,4 @@
-#include "SpriteComponent.h"
+#include "stdafx.h"
 
 SpriteComponent::SpriteComponent(Actor* owner, int order) : 
 	Component(owner),

@@ -1,33 +1,51 @@
-#include "Actor.h"
+#include "stdafx.h"
 
 Actor::Actor(class Game* game) : 
 	mGame(game),
 	mPos(Vector2::Zero),
-	mSca(1.f),
+	mSca(3.f),
 	mRot(0.f),
+	mVel(Vector2(0.f, 0.f)),
 	mSprite(new SpriteComponent(this)),
-	mRecompute(1)
+	mRecompute(1),
+	mState(EActive)
 {
-	//mGame->AddActor(this); TODO
+	mGame->AddActor(this);
 }
 
 Actor::~Actor() 
 {
-	//mGame->RemoveActor(this);
+	mGame->RemoveActor(this);
+	delete mSprite;
 	while (!mComponents.empty()) delete mComponents.back();
 }
 
+void Actor::ProcessInput(const uint8_t* keyState)
+{
+	if (mState == EActive)
+	{
+		for (auto c : mComponents) c->ProcessInput(keyState);
+		ActorInput(keyState);
+	}
+}
+
+void Actor::ActorInput(const uint8_t* keyState) {}
+
 void Actor::Update(float delta)
 {
-	ComputeWorldTransform();
-	UpdateComponents(delta);
-	UpdateActor(delta);
-	ComputeWorldTransform();
+	if (mState == EActive)
+	{
+		ComputeWorldTransform();
+		UpdateComponents(delta);
+		UpdateActor(delta);
+		ComputeWorldTransform();
+	}
+	if (mState == EDead) delete this;
 }
 
 void Actor::UpdateComponents(float delta)
 {
-	for (class Component* c : mComponents) c->Update(delta);
+	for (auto c : mComponents) c->Update(delta);
 }
 
 void Actor::UpdateActor(float delta) {}

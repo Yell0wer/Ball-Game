@@ -1,4 +1,4 @@
-#include "VertexArray.h"
+#include "stdafx.h"
 
 VertexArray::VertexArray(const float* verts, uint numVerts, const uint* indices, uint numIndices) : 
 	mNumVerts(numVerts),

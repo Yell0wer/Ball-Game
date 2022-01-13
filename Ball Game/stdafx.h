@@ -24,3 +24,6 @@ typedef unsigned int uint;
 #include "Shader.h"
 #include "Actor.h"
 #include "Texture.h"
+#include "Player.h"
+#include "MoveComponent.h"
+#include "ControllerComponent.h"
