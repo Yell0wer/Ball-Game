@@ -9,6 +9,7 @@ typedef unsigned int uint;
 #include <vector>
 #include <algorithm>
 #include <utility>
+#include <cmath>
 
 // other libraries
 #include "SDL.h"
@@ -27,3 +28,5 @@ typedef unsigned int uint;
 #include "Player.h"
 #include "MoveComponent.h"
 #include "ControllerComponent.h"
+
+// TODO: collision shooting camera

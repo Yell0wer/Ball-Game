@@ -3,7 +3,7 @@
 Actor::Actor(class Game* game) : 
 	mGame(game),
 	mPos(Vector2::Zero),
-	mSca(3.f),
+	mSca(4.f),
 	mRot(0.f),
 	mVel(Vector2(0.f, 0.f)),
 	mSprite(new SpriteComponent(this)),
@@ -61,6 +61,13 @@ void Actor::ComputeWorldTransform()
 	mRecompute = 0;
 	mWorldTransform = Matrix4::CreateScale(mSca) * Matrix4::CreateRotationZ(mRot) * Matrix4::CreateTranslation(Vector3(mPos.x, mPos.y, 0.f));
 	// TODO: inform components
+}
+
+void Actor::LoadTex(const std::string& file)
+{
+	class Texture* tex = new Texture();
+	tex->Load(file);
+	mSprite->SetTexture(tex);
 }
 
 void Actor::AddComponent(class Component* c)

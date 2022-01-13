@@ -94,9 +94,4 @@
     <None Include="Basic.frag" />
     <None Include="Basic.vert" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="char.png">
-      <Filter>Resource Files</Filter>
-    </Image>
-  </ItemGroup>
 </Project>

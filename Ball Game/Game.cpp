@@ -25,7 +25,7 @@ bool Game::Initialize()
 	// hardware acceleration
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 	// create sdl window
-	mWindow = SDL_CreateWindow("Carl's Fantastic Ball Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 768, SDL_WINDOW_OPENGL);
+	mWindow = SDL_CreateWindow("Carl's Fantastic Ball Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN_DESKTOP);
 	if (!mWindow)
 	{
 		SDL_Log("Failed creating window: %s\n", SDL_GetError());
@@ -58,6 +58,9 @@ bool Game::Initialize()
 	};
 	mSquare = new VertexArray(v, 4, i, 6);
 
+	class Actor* bg = new Actor(this);
+	bg->LoadTex("Assets/bg.png");
+	AddActor(bg);
 	AddActor(new Player(this));
 
 	return 1;
@@ -129,6 +132,10 @@ void Game::GenerateOutput()
 	// activate vertex array
 	mShader->SetActive();
 	mSquare->SetActive();
+	// alpha blending
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+	// draw
 	for (auto a : mActors) a->Draw();
 	// swap buffers
 	SDL_GL_SwapWindow(mWindow);
@@ -162,6 +169,6 @@ bool Game::LoadShaders()
 	mShader = new Shader();
 	if (!mShader->Load("Basic.vert", "Basic.frag")) return 0;
 	mShader->SetActive();
-	mShader->SetMatrixUniform("uViewTransform", Matrix4::CreateSimpleViewProj(1024.f, 768.f));
+	mShader->SetMatrixUniform("uViewTransform", Matrix4::CreateSimpleViewProj(1920.f, 1080.f));
 	return 1;
 }

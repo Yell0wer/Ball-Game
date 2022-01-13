@@ -5,11 +5,7 @@ Player::Player(class Game* game) :
 {
 	AddComponent(new MoveComponent(this));
 	AddComponent(new ControllerComponent(this));
-}
-
-void Player::ActorInput(const uint8_t* keyState)
-{
-
+	LoadTex("Assets/char.png");
 }
 
 void Player::UpdateActor(float delta)

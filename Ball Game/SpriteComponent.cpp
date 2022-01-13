@@ -2,13 +2,11 @@
 
 SpriteComponent::SpriteComponent(Actor* owner, int order) : 
 	Component(owner),
-	mTexture(new Texture()),
+	mTexture(nullptr),
 	mDrawOrder(order),
 	mTexWidth(0),
 	mTexHeight(0)
 {
-	mTexture->Load("char.png");
-	SetTexture(mTexture);
 }
 
 SpriteComponent::~SpriteComponent() {}

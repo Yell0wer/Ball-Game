@@ -28,7 +28,7 @@ public:
 	void ComputeWorldTransform();
 	const Matrix4& GetWorldTransform() const { return mWorldTransform; }
 
-	Vector2 GetForward() const { return Vector2(Math::Cos(mRot), Math::Sin(mRot)); }
+	void LoadTex(const std::string& file);
 	
 	class Game* GetGame() const { return mGame; }
 	const Vector2& GetPos() const { return mPos; }
