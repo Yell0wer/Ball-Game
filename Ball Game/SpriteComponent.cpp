@@ -6,8 +6,7 @@ SpriteComponent::SpriteComponent(Actor* owner, int order) :
 	mDrawOrder(order),
 	mTexWidth(0),
 	mTexHeight(0)
-{
-}
+{}
 
 SpriteComponent::~SpriteComponent() {}
 

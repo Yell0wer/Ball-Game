@@ -16,6 +16,8 @@ public:
 	void ProcessInput(const uint8_t* keyState) override;
 	void Update(float delta) override;
 
+	bool IsGrounded();
+
 	int GetLeft() const { return mLeft; }
 	int GetRight() const { return mRight; }
 	int GetJump() const { return mJump; }

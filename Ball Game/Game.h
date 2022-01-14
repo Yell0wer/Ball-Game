@@ -13,6 +13,8 @@ public:
 	void RemoveActor(class Actor* a);
 
 	class Shader* GetShader() const { return mShader; }
+	b2World* GetWorld() const { return mWorld; }
+
 private:
 	// helper functions
 	void ProcessInput();
@@ -23,11 +25,12 @@ private:
 	SDL_Window* mWindow;
 	SDL_GLContext mContext;
 	const Uint8* mKeyboardState;
-	Uint8 mTickCount;
+	Uint32 mTickCount;
 	class Shader* mShader;
 	class VertexArray* mSquare;
 	bool mIsRunning;
 	std::vector<class Actor*> mActors;
 	bool mActorsUpdating;
 	std::vector<class Actor*> mPending;
+	b2World* mWorld;
 };

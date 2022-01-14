@@ -25,7 +25,7 @@ bool Game::Initialize()
 	// hardware acceleration
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 	// create sdl window
-	mWindow = SDL_CreateWindow("Carl's Fantastic Ball Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN_DESKTOP);
+	mWindow = SDL_CreateWindow("Carl's Fantastic Ball Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 768, SDL_WINDOW_OPENGL);
 	if (!mWindow)
 	{
 		SDL_Log("Failed creating window: %s\n", SDL_GetError());
@@ -58,9 +58,9 @@ bool Game::Initialize()
 	};
 	mSquare = new VertexArray(v, 4, i, 6);
 
-	class Actor* bg = new Actor(this);
-	bg->LoadTex("Assets/bg.png");
-	AddActor(bg);
+	b2Vec2 gravity(0.f, -10.f);
+	mWorld = new b2World(gravity);
+
 	AddActor(new Player(this));
 
 	return 1;
@@ -107,14 +107,14 @@ void Game::ProcessInput()
 
 void Game::UpdateGame()
 {
+	// limit framerate (15 fps)
+	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTickCount + 16));
 	// get delta 
 	float delta = (SDL_GetTicks() - mTickCount) / 1000.f;
+	// clamp delta  value
+	delta = std::min(delta, 0.05f);
 	// update tick count
 	mTickCount = SDL_GetTicks();
-	// limit framerate (15 fps)
-	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTickCount + 64));
-	// clamp delta  value
-	if (delta > 0.5f) delta = 0.5f;
 	// update actors
 	mActorsUpdating = 1;
 	for (auto a : mActors) a->Update(delta);
@@ -169,6 +169,6 @@ bool Game::LoadShaders()
 	mShader = new Shader();
 	if (!mShader->Load("Basic.vert", "Basic.frag")) return 0;
 	mShader->SetActive();
-	mShader->SetMatrixUniform("uViewTransform", Matrix4::CreateSimpleViewProj(1920.f, 1080.f));
+	mShader->SetMatrixUniform("uViewTransform", Matrix4::CreateSimpleViewProj(1024.f, 768.f));
 	return 1;
 }

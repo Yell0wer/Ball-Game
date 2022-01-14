@@ -7,6 +7,6 @@ MoveComponent::MoveComponent(class Actor* actor) :
 
 void MoveComponent::Update(float delta)
 {
-	if (mIsGravity) mOwner->SetVel(mOwner->GetVel() + Vector2(0.f, -0.4f) * delta);
+	if (mIsGravity) mOwner->SetVel(mOwner->GetVel() + Vector2(0.f, -627.2f) * delta);
 	mOwner->SetPos(mOwner->GetPos() + mOwner->GetVel() * delta);
 }

@@ -10,12 +10,14 @@ typedef unsigned int uint;
 #include <algorithm>
 #include <utility>
 #include <cmath>
+#include <set>
 
 // other libraries
 #include "SDL.h"
 #include "glew.h"
 #include "Math.h"
 #include "SOIL2.h"
+#include "box2d.h"
 
 // headers
 #include "Component.h"
