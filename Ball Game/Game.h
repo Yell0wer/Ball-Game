@@ -32,5 +32,9 @@ private:
 	std::vector<class Actor*> mActors;
 	bool mActorsUpdating;
 	std::vector<class Actor*> mPending;
+
+	// physics
 	b2World* mWorld;
+	int32 mVelIter = 8;
+	int32 mPosIter = 3;
 };

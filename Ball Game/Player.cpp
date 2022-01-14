@@ -3,12 +3,24 @@
 Player::Player(class Game* game) : 
 	Actor(game)
 {
-	AddComponent(new MoveComponent(this));
+	b2BodyDef bodyDef;
+	bodyDef.type = b2_dynamicBody;
+	bodyDef.position.Set(mPos.x, mPos.y);
+	mBody = mGame->GetWorld()->CreateBody(&bodyDef);
+	b2CircleShape circle;
+	circle.m_radius = 0.5f;
+	b2FixtureDef fixture;
+	fixture.shape = &circle;
+	fixture.density = 1.f;
+	fixture.friction = 0.f;
+	mBody->CreateFixture(&fixture);
 	AddComponent(new ControllerComponent(this));
 	LoadTex("Assets/char.png");
 }
 
 void Player::UpdateActor(float delta)
 {
-	if (mPos.y < 0.f) mPos.y = 0.f; // temp
+	mPos.x = mBody->GetPosition().x;
+	mPos.y = mBody->GetPosition().y;
+	mRecompute = 1;
 }

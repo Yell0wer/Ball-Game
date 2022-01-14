@@ -28,7 +28,7 @@ typedef unsigned int uint;
 #include "Actor.h"
 #include "Texture.h"
 #include "Player.h"
-#include "MoveComponent.h"
 #include "ControllerComponent.h"
+#include "Block.h"
 
 // TODO: collision shooting camera

@@ -19,7 +19,7 @@ void ControllerComponent::ProcessInput(const uint8_t* keyState)
 
 void ControllerComponent::Update(float delta)
 {
-	Vector2 vel = mOwner->GetVel();
+	/*Vector2 vel = mOwner->GetVel();
 	if (mCurrState[mLeft]) vel.x -= 256.f * delta;
 	else if (vel.x < 0)
 		vel.x += 128.f * delta;
@@ -34,7 +34,7 @@ void ControllerComponent::Update(float delta)
 	if (GetKeyState(mJump) == EPressed && IsGrounded())
 		mOwner->SetVel(Vector2(mOwner->GetVel().x, 350.f));
 
-	memcpy(mPrevState, mCurrState, SDL_NUM_SCANCODES);
+	memcpy(mPrevState, mCurrState, SDL_NUM_SCANCODES);*/
 }
 
 bool ControllerComponent::IsGrounded()

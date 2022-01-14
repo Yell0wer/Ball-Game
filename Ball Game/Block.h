@@ -1,13 +1,14 @@
 #pragma once
 
-class Player : public Actor
+class Block : public Actor
 {
 public:
-	Player(class Game* game);
+	Block(class Game* game, float w, float h);
 
 	void UpdateActor(float delta) override;
 
 private:
+	float mWidth, mHeight;
 	b2Body* mBody;
 };
 

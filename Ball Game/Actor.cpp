@@ -3,7 +3,7 @@
 Actor::Actor(class Game* game) : 
 	mGame(game),
 	mPos(Vector2::Zero),
-	mSca(4.f),
+	mSca(1.f),
 	mRot(0.f),
 	mVel(Vector2(0.f, 0.f)),
 	mSprite(new SpriteComponent(this)),
@@ -59,7 +59,7 @@ void Actor::ComputeWorldTransform()
 {
 	if (!mRecompute) return;
 	mRecompute = 0;
-	mWorldTransform = Matrix4::CreateScale(mSca) * Matrix4::CreateRotationZ(mRot) * Matrix4::CreateTranslation(Vector3(mPos.x, mPos.y, 0.f));
+	mWorldTransform = Matrix4::CreateScale(mSca*0.0625f) * Matrix4::CreateRotationZ(mRot) * Matrix4::CreateTranslation(Vector3(mPos.x, mPos.y, 0.f));
 	// TODO: inform components
 }
 
