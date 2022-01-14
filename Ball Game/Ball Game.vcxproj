@@ -168,9 +168,11 @@
     <ClCompile Include="ControllerComponent.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Math.cpp" />
+    <ClCompile Include="DynamicActor.cpp" />
     <ClCompile Include="Player.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="SpriteComponent.cpp" />
+    <ClCompile Include="StaticActor.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="VertexArray.cpp" />
   </ItemGroup>
@@ -181,9 +183,11 @@
     <ClInclude Include="ControllerComponent.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Math.h" />
+    <ClInclude Include="DynamicActor.h" />
     <ClInclude Include="Player.h" />
     <ClInclude Include="Shader.h" />
     <ClInclude Include="SpriteComponent.h" />
+    <ClInclude Include="StaticActor.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="VertexArray.h" />

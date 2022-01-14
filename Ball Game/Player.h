@@ -1,6 +1,6 @@
 #pragma once
 
-class Player : public Actor
+class Player : public DynamicActor
 {
 public:
 	Player(class Game* game);

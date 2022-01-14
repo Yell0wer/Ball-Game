@@ -11,7 +11,7 @@ enum ButtonState
 class ControllerComponent : public Component
 {
 public:
-	ControllerComponent(class Actor* actor);
+	ControllerComponent(class DynamicActor* actor);
 
 	void ProcessInput(const uint8_t* keyState) override;
 	void Update(float delta) override;
@@ -31,6 +31,8 @@ public:
 
 private:
 	ButtonState GetKeyState(SDL_Scancode key) const;
+
+	class DynamicActor* mOwner;
 	float mSpeedLim;
 	SDL_Scancode mLeft, mRight, mJump, mShoot, mCrouch;
 	uint8_t mCurrState[SDL_NUM_SCANCODES], mPrevState[SDL_NUM_SCANCODES];

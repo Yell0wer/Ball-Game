@@ -1,6 +1,6 @@
 #pragma once
 
-class Block : public Actor
+class Block : public StaticActor
 {
 public:
 	Block(class Game* game, float w, float h);

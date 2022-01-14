@@ -1,9 +1,11 @@
 #include "stdafx.h"
 
-ControllerComponent::ControllerComponent(class Actor* actor) :
+ControllerComponent::ControllerComponent(class DynamicActor* actor) :
 	Component(actor),
 	mSpeedLim(4.f)
 {
+	mOwner = actor;
+
 	SetJump(SDL_SCANCODE_W);
 	SetLeft(SDL_SCANCODE_A);
 	SetCrouch(SDL_SCANCODE_S);

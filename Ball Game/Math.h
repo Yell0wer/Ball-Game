@@ -420,7 +420,7 @@ public:
 
 	Matrix3()
 	{
-		*this = Matrix3::Identity;
+		*this = Matrix3::IdActor;
 	}
 
 	explicit Matrix3(float inMat[3][3])
@@ -543,7 +543,7 @@ public:
 		return Matrix3(temp);
 	}
 
-	static const Matrix3 Identity;
+	static const Matrix3 IdActor;
 };
 
 // 4x4 Matrix
@@ -554,7 +554,7 @@ public:
 
 	Matrix4()
 	{
-		*this = Matrix4::Identity;
+		*this = Matrix4::IdActor;
 	}
 
 	explicit Matrix4(float inMat[4][4])
@@ -855,7 +855,7 @@ public:
 		return Matrix4(temp);
 	}
 
-	static const Matrix4 Identity;
+	static const Matrix4 IdActor;
 };
 
 // (Unit) Quaternion
@@ -869,7 +869,7 @@ public:
 
 	Quaternion()
 	{
-		*this = Quaternion::Identity;
+		*this = Quaternion::IdActor;
 	}
 
 	// This directly sets the quaternion components --
@@ -1015,7 +1015,7 @@ public:
 		return retVal;
 	}
 
-	static const Quaternion Identity;
+	static const Quaternion IdActor;
 };
 
 namespace Color

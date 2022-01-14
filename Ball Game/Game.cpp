@@ -25,7 +25,7 @@ bool Game::Initialize()
 	// hardware acceleration
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 	// create sdl window
-	mWindow = SDL_CreateWindow("Carl's Fantastic Ball Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1920, 1080, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN);
+	mWindow = SDL_CreateWindow("Carl's Fantastic Ball Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1024, 768, SDL_WINDOW_OPENGL);
 	if (!mWindow)
 	{
 		SDL_Log("Failed creating window: %s\n", SDL_GetError());
@@ -178,6 +178,6 @@ bool Game::LoadShaders()
 	mShader = new Shader();
 	if (!mShader->Load("Basic.vert", "Basic.frag")) return 0;
 	mShader->SetActive();
-	mShader->SetMatrixUniform("uViewTransform", Matrix4::CreateScale(64.f) * Matrix4::CreateSimpleViewProj(1920.f, 1080.f));
+	mShader->SetMatrixUniform("uViewTransform", Matrix4::CreateScale(64.f) * Matrix4::CreateSimpleViewProj(1024.f, 768.f));
 	return 1;
 }

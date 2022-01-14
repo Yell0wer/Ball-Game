@@ -26,6 +26,8 @@ typedef unsigned int uint;
 #include "VertexArray.h"
 #include "Shader.h"
 #include "Actor.h"
+#include "DynamicActor.h"
+#include "StaticActor.h"
 #include "Texture.h"
 #include "Player.h"
 #include "ControllerComponent.h"

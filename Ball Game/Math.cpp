@@ -30,7 +30,7 @@ static float m3Ident[3][3] =
 	{ 0.0f, 1.0f, 0.0f },
 	{ 0.0f, 0.0f, 1.0f }
 };
-const Matrix3 Matrix3::Identity(m3Ident);
+const Matrix3 Matrix3::IdActor(m3Ident);
 
 static float m4Ident[4][4] =
 {
@@ -40,9 +40,9 @@ static float m4Ident[4][4] =
 	{ 0.0f, 0.0f, 0.0f, 1.0f }
 };
 
-const Matrix4 Matrix4::Identity(m4Ident);
+const Matrix4 Matrix4::IdActor(m4Ident);
 
-const Quaternion Quaternion::Identity(0.0f, 0.0f, 0.0f, 1.0f);
+const Quaternion Quaternion::IdActor(0.0f, 0.0f, 0.0f, 1.0f);
 
 Vector2 Vector2::Transform(const Vector2& vec, const Matrix3& mat, float w /*= 1.0f*/)
 {
