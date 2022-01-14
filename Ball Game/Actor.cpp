@@ -5,7 +5,6 @@ Actor::Actor(class Game* game) :
 	mPos(Vector2::Zero),
 	mSca(1.f),
 	mRot(0.f),
-	mVel(Vector2(0.f, 0.f)),
 	mSprite(new SpriteComponent(this)),
 	mRecompute(1),
 	mState(EActive)

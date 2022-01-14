@@ -9,6 +9,5 @@ public:
 
 private:
 	float mWidth, mHeight;
-	b2Body* mBody;
 };
 

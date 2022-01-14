@@ -8,6 +8,6 @@ public:
 	void UpdateActor(float delta) override;
 
 private:
-	b2Body* mBody;
+
 };
 

@@ -30,22 +30,22 @@ public:
 
 	void LoadTex(const std::string& file);
 	
+	b2Body* GetBody() const { return mBody; }
 	class Game* GetGame() const { return mGame; }
 	const Vector2& GetPos() const { return mPos; }
 	float GetSca() const { return mSca; }
 	float GetRot() const { return mRot; }
-	Vector2 GetVel() const { return mVel; }
 	void SetPos(const Vector2& pos) { mPos = pos; mRecompute = 1; }
 	void SetSca(float sca) { mSca = sca; mRecompute = 1; }
 	void SetRot(float rot) { mRot = rot; mRecompute = 1; }
-	void SetVel(const Vector2& vel) { mVel = vel; }
 
 protected:
+	b2Body* mBody; // TODO physics background and static actors
+
 	Matrix4 mWorldTransform;
 	Vector2 mPos;
 	float mSca;
 	float mRot;
-	Vector2 mVel;
 	bool mRecompute;
 
 	State mState;
