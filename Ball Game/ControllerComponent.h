@@ -31,10 +31,34 @@ public:
 
 private:
 	ButtonState GetKeyState(SDL_Scancode key) const;
+	ButtonState GetMouseButtonState(int button) const;
 
+	int mNumJumps;
 	class DynamicActor* mOwner;
+	float mMouseX, mMouseY;
+	b2Vec2 mToMouse;
 	float mSpeedLim;
 	SDL_Scancode mLeft, mRight, mJump, mShoot, mCrouch;
 	uint8_t mCurrState[SDL_NUM_SCANCODES], mPrevState[SDL_NUM_SCANCODES];
+	Uint32 mCurrMouse, mPrevMouse;
 };
 
+class RayCastCallback : public b2RayCastCallback
+{
+public:
+	RayCastCallback() : m_fixture(nullptr) {}
+
+	float ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float fraction)
+	{
+		m_fixture = fixture;
+		m_point = point;
+		m_normal = normal;
+		m_fraction = fraction;
+		return fraction;
+	}
+
+	b2Fixture* m_fixture;
+	b2Vec2 m_point;
+	b2Vec2 m_normal;
+	float m_fraction;
+};

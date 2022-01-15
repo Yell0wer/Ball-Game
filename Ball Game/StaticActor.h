@@ -8,9 +8,9 @@ public:
 	b2Body* GetBody() const { return mBody; }
 
 protected:
-	void UpdatePos();
-	void SetBox(float w, float h);
-	void SetCircle(float r);
+	void UpdateTrans();
+	void SetBox(float w, float h, float f);
+	void SetCircle(float r, float f);
 	b2Body* mBody;
 };
 

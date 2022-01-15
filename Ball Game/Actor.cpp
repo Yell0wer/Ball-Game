@@ -1,8 +1,9 @@
 #include "stdafx.h"
 
-Actor::Actor(class Game* game) : 
+Actor::Actor(class Game* game, int order) : 
 	mGame(game),
-	mPos(Vector2::Zero),
+	mOrder(order),
+	mPos(b2Vec2(0.f, 0.f)),
 	mSca(1.f),
 	mRot(0.f),
 	mSprite(new SpriteComponent(this)),

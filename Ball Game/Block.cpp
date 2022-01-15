@@ -5,11 +5,11 @@ Block::Block(class Game* game, float w, float h) :
 	mWidth(w),
 	mHeight(h)
 {
-	SetBox(w, h);
+	SetBox(w, h, 1.f);
 	LoadTex("Assets/block.png");
 }
 
 void Block::UpdateActor(float delta)
 {
-	UpdatePos();
+	UpdateTrans();
 }

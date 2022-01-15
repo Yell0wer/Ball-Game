@@ -29,8 +29,10 @@ typedef unsigned int uint;
 #include "DynamicActor.h"
 #include "StaticActor.h"
 #include "Texture.h"
+#include "Projectile.h"
 #include "Player.h"
 #include "ControllerComponent.h"
 #include "Block.h"
+#include "Crate.h"
 
-// TODO: collision shooting camera
+// TODO: shooting camera

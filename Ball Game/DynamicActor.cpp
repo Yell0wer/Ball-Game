@@ -9,31 +9,32 @@ DynamicActor::DynamicActor(class Game* game) :
 	mBody = mGame->GetWorld()->CreateBody(&bodyDef);
 }
 
-void DynamicActor::UpdatePos()
+void DynamicActor::UpdateTrans()
 {
 	mPos.x = mBody->GetPosition().x;
 	mPos.y = mBody->GetPosition().y;
+	mRot = mBody->GetAngle();
 	mRecompute = 1;
 }
 
-void DynamicActor::SetBox(float w, float h)
+void DynamicActor::SetBox(float w, float h, float d, float f)
 {
 	b2PolygonShape box;
-	box.SetAsBox(w / 2, h / 2);
+	box.SetAsBox(w / 2, h / 2, mPos, 0.f);
 	b2FixtureDef fixture;
 	fixture.shape = &box;
-	fixture.density = 1.f;
-	fixture.friction = 0.f;
+	fixture.density = d;
+	fixture.friction = f;
 	mBody->CreateFixture(&fixture);
 }
 
-void DynamicActor::SetCircle(float r)
+void DynamicActor::SetCircle(float r, float d, float f)
 {
 	b2CircleShape circle;
 	circle.m_radius = r;
 	b2FixtureDef fixture;
 	fixture.shape = &circle;
-	fixture.density = 1.f;
-	fixture.friction = 0.f;
+	fixture.density = d;
+	fixture.friction = f;
 	mBody->CreateFixture(&fixture);
 }

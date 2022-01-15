@@ -61,15 +61,16 @@ bool Game::Initialize()
 	b2Vec2 gravity(0.f, -10.f);
 	mWorld = new b2World(gravity);
 
-	Actor* bg = new Actor(this);
+	Actor* bg = new Actor(this, 1000);
 	bg->LoadTex("Assets/bg.png");
 	AddActor(bg);
 
-	Block* block = new Block(this, 4.f, 1.f);
-	block->SetPos(Vector2(0.f, -3.f));
+	Block* block = new Block(this, 4.f, 1.f); // temp
+	block->SetPos(b2Vec2(0.f, -3.f));
 	AddActor(block);
-
-	AddActor(new Player(this));
+	Crate* c = new Crate(this);
+	c->SetPos(b2Vec2(0.f, 1.f));
+	new Player(this);
 
 	return 1;
 }
@@ -128,7 +129,7 @@ void Game::UpdateGame()
 	mActorsUpdating = 1;
 	for (auto a : mActors) a->Update(delta);
 	mActorsUpdating = 0;
-	for (auto a : mPending) mActors.emplace_back(a);
+	for (auto a : mPending) AddActor(a);
 	mPending.clear();
 }
 
@@ -153,11 +154,17 @@ void Game::GenerateOutput()
 void Game::AddActor(class Actor* a)
 {
 	if (mActorsUpdating) mPending.push_back(a);
-	else mActors.push_back(a);
+	else
+	{
+		auto i = mActors.begin();
+		for (; i != mActors.end(); i++)
+			if (a->GetOrder() > (*i)->GetOrder()) break;
+		mActors.insert(i, a);
+	}
 }
 
 void Game::RemoveActor(class Actor* a)
-{
+{ // binary search?
 	auto i = std::find(mPending.begin(), mPending.end(), a);
 	if (i != mPending.end())
 	{

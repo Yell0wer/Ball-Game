@@ -8,21 +8,27 @@ StaticActor::StaticActor(class Game* game) :
 	mBody = mGame->GetWorld()->CreateBody(&bodyDef);
 }
 
-void StaticActor::UpdatePos()
+void StaticActor::UpdateTrans()
 {
 	mBody->SetTransform(b2Vec2(mPos.x, mPos.y), mRot);
 }
 
-void StaticActor::SetBox(float w, float h)
+void StaticActor::SetBox(float w, float h, float f)
 {
 	b2PolygonShape box;
 	box.SetAsBox(w / 2, h / 2);
-	mBody->CreateFixture(&box, 0.f);
+	b2FixtureDef fixture;
+	fixture.shape = &box;
+	fixture.friction = f;
+	mBody->CreateFixture(&fixture);
 }
 
-void StaticActor::SetCircle(float r)
+void StaticActor::SetCircle(float r, float f)
 {
 	b2CircleShape circle;
 	circle.m_radius = r;
-	mBody->CreateFixture(&circle, 0.f);
+	b2FixtureDef fixture;
+	fixture.shape = &circle;
+	fixture.friction = f;
+	mBody->CreateFixture(&fixture);
 }

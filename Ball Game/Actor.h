@@ -10,7 +10,7 @@ enum State
 class Actor
 {
 public:
-	Actor(class Game* game);
+	Actor(class Game* game, int order = 100);
 	virtual ~Actor();
 	
 	void ProcessInput(const uint8_t* keyState);
@@ -30,21 +30,23 @@ public:
 
 	void LoadTex(const std::string& file);
 	
+	int GetOrder() const { return mOrder; }
 	class Game* GetGame() const { return mGame; }
-	const Vector2& GetPos() const { return mPos; }
+	const b2Vec2& GetPos() const { return mPos; }
 	float GetSca() const { return mSca; }
 	float GetRot() const { return mRot; }
-	void SetPos(const Vector2& pos) { mPos = pos; mRecompute = 1; }
-	void SetSca(float sca) { mSca = sca; mRecompute = 1; }
-	void SetRot(float rot) { mRot = rot; mRecompute = 1; }
+	virtual void SetPos(const b2Vec2& pos) { mPos = pos; mRecompute = 1; }
+	virtual void SetSca(float sca) { mSca = sca; mRecompute = 1; }
+	virtual void SetRot(float rot) { mRot = rot; mRecompute = 1; }
 
 protected:
 	Matrix4 mWorldTransform;
-	Vector2 mPos;
+	b2Vec2 mPos;
 	float mSca;
 	float mRot;
 	bool mRecompute;
 
+	int mOrder;
 	State mState;
 	std::vector<class Component*> mComponents;
 	class SpriteComponent* mSprite;
