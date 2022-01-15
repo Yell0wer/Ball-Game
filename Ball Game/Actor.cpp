@@ -7,8 +7,8 @@ Actor::Actor(class Game* game, int order) :
 	mSca(1.f),
 	mRot(0.f),
 	mSprite(new SpriteComponent(this)),
-	mRecompute(1),
-	mState(EActive)
+	mState(EActive),
+	mFollowPlayer(0)
 {
 	mGame->AddActor(this);
 }
@@ -57,9 +57,7 @@ void Actor::Draw()
 
 void Actor::ComputeWorldTransform()
 {
-	if (!mRecompute) return;
-	mRecompute = 0;
-	mWorldTransform = Matrix4::CreateScale(mSca*0.0625f) * Matrix4::CreateRotationZ(mRot) * Matrix4::CreateTranslation(Vector3(mPos.x, mPos.y, 0.f));
+	mWorldTransform = Matrix4::CreateScale(mSca*0.0625f) * Matrix4::CreateRotationZ(mRot) * Matrix4::CreateTranslation(Vector3(mFollowPlayer ? mPos.x : mPos.x - mGame->GetCamera()->GetPos().x, mFollowPlayer ? mPos.y : mPos.y - mGame->GetCamera()->GetPos().y, 0.f));
 	// TODO: inform components
 }
 

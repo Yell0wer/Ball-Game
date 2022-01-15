@@ -25,7 +25,10 @@ void ControllerComponent::ProcessInput(const uint8_t* keyState)
 	mMouseX /= 64.f;
 	mMouseY = static_cast<float>(mOwner->GetGame()->GetWindowHeight()) / 2.f - mMouseY;
 	mMouseY /= 64.f;
-	mToMouse = b2Vec2(mMouseX - mOwner->GetPos().x, mMouseY - mOwner->GetPos().y);
+	mToMouse = b2Vec2(mMouseX, mMouseY);
+	mToMouse += mOwner->GetGame()->GetCamera()->GetPos();
+	printf("%f, %f\n", mToMouse.x, mToMouse.y);
+	mToMouse -= mOwner->GetPos();
 	mToMouse.Normalize();
 	memcpy(mCurrState, keyState, SDL_NUM_SCANCODES);
 }

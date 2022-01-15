@@ -14,6 +14,8 @@ public:
 
 	class Shader* GetShader() const { return mShader; }
 	b2World* GetWorld() const { return mWorld; }
+	class Player* GetPlayer() const { return mPlayer; }
+	class Camera* GetCamera() const { return mCamera; }
 	int GetWindowWidth() const { return mWindowWidth; }
 	int GetWindowHeight() const { return mWindowHeight; }
 
@@ -24,6 +26,8 @@ private:
 	void GenerateOutput();
 	bool LoadShaders();
 	// game objects
+	class Camera* mCamera;
+	class Player* mPlayer;
 	SDL_Window* mWindow;
 	int mWindowWidth, mWindowHeight;
 	SDL_GLContext mContext;

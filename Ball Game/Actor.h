@@ -32,19 +32,20 @@ public:
 	
 	int GetOrder() const { return mOrder; }
 	class Game* GetGame() const { return mGame; }
-	const b2Vec2& GetPos() const { return mPos; }
+	const b2Vec2 GetPos() const { return mPos; }
 	float GetSca() const { return mSca; }
 	float GetRot() const { return mRot; }
-	virtual void SetPos(const b2Vec2& pos) { mPos = pos; mRecompute = 1; }
-	virtual void SetSca(float sca) { mSca = sca; mRecompute = 1; }
-	virtual void SetRot(float rot) { mRot = rot; mRecompute = 1; }
+	virtual void SetPos(const b2Vec2& pos) { mPos = pos; }
+	virtual void SetSca(float sca) { mSca = sca; }
+	virtual void SetRot(float rot) { mRot = rot; }
+	void SetFollow(bool f) { mFollowPlayer = f; }
 
 protected:
 	Matrix4 mWorldTransform;
 	b2Vec2 mPos;
 	float mSca;
 	float mRot;
-	bool mRecompute;
+	bool mFollowPlayer;
 
 	int mOrder;
 	State mState;

@@ -14,7 +14,6 @@ void DynamicActor::UpdateTrans()
 	mPos.x = mBody->GetPosition().x;
 	mPos.y = mBody->GetPosition().y;
 	mRot = mBody->GetAngle();
-	mRecompute = 1;
 }
 
 void DynamicActor::SetBox(float w, float h, float d, float f)

@@ -34,5 +34,6 @@ typedef unsigned int uint;
 #include "ControllerComponent.h"
 #include "Block.h"
 #include "Crate.h"
+#include "Camera.h"
 
-// TODO: shooting camera
+// TODO: camera enemies levels animation ui audio

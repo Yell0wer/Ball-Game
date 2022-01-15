@@ -43,6 +43,7 @@ bool Game::Initialize()
 		return 0;
 	}
 	glGetError(); // clear insignificant error codes
+
 	// load shaders
 	if (!LoadShaders()) return 0;
 	// allow program to run
@@ -58,19 +59,23 @@ bool Game::Initialize()
 		0, 1, 2,
 		2, 3, 0
 	};
+
 	mSquare = new VertexArray(v, 4, i, 6);
+
+	mCamera = new Camera(this);
 
 	b2Vec2 gravity(0.f, -10.f);
 	mWorld = new b2World(gravity);
 
 	Actor* bg = new Actor(this, 1000);
+	bg->SetFollow(1);
 	bg->LoadTex("Assets/bg.png");
 	AddActor(bg);
 
 	Block* block = new Block(this, 500.f, 1.f, "Assets/block.png"); // temp
 	block->SetPos(b2Vec2(0.f, -3.f));
 	AddActor(block);
-	new Player(this);
+	mPlayer = new Player(this);
 
 	return 1;
 }
@@ -131,6 +136,7 @@ void Game::UpdateGame()
 	mActorsUpdating = 0;
 	for (auto a : mPending) AddActor(a);
 	mPending.clear();
+	mCamera->Update(delta);
 }
 
 void Game::GenerateOutput()
