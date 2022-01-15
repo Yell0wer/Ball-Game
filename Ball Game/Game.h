@@ -14,6 +14,8 @@ public:
 
 	class Shader* GetShader() const { return mShader; }
 	b2World* GetWorld() const { return mWorld; }
+	int GetWindowWidth() const { return mWindowWidth; }
+	int GetWindowHeight() const { return mWindowHeight; }
 
 private:
 	// helper functions
@@ -23,6 +25,7 @@ private:
 	bool LoadShaders();
 	// game objects
 	SDL_Window* mWindow;
+	int mWindowWidth, mWindowHeight;
 	SDL_GLContext mContext;
 	const Uint8* mKeyboardState;
 	Uint32 mTickCount;

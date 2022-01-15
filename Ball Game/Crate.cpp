@@ -3,7 +3,7 @@
 Crate::Crate(class Game* game) :
 	DynamicActor(game)
 {
-	SetBox(1.f, 1.f, 5.f, 0.f);
+	SetBox(1.f, 1.f, 5.f, 1.f);
 	LoadTex("Assets/crate2.png");
 }
 
