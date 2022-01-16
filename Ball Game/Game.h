@@ -1,6 +1,6 @@
 #pragma once
 
-class ContactListener : public b2ContactListener
+class ContactListener : public b2ContactListener // todo encapsulate this?
 {
 public:
 	ContactListener() {}
@@ -11,29 +11,18 @@ public:
 
 	void PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
 	{
-		b2WorldManifold worldManifold;
-		contact->GetWorldManifold(&worldManifold);
-		b2PointState state1[2], state2[2];
-		b2GetPointStates(state1, state2, oldManifold, contact->GetManifold());
+		const b2Body* bodyA = contact->GetFixtureA()->GetBody();
+		const b2Body* bodyB = contact->GetFixtureB()->GetBody();
+		b2Vec2 velA = bodyA->GetLinearVelocity(), velB = bodyB->GetLinearVelocity();
 
-		if (state2[0] == b2_addState)
-		{
-			const b2Body* bodyA = contact->GetFixtureA()->GetBody();
-			const b2Body* bodyB = contact->GetFixtureB()->GetBody();
-			b2Vec2 point = worldManifold.points[0];
-			b2Vec2 vA = bodyA->GetLinearVelocityFromWorldPoint(point);
-			b2Vec2 vB = bodyB->GetLinearVelocityFromWorldPoint(point);
-
-			float approachVelocity = std::abs(b2Dot(vB - vA, worldManifold.normal)); // todo figure out and fix this thing
-
-			uintptr_t userDataA = bodyA->GetUserData().pointer;
-			uintptr_t userDataB = bodyB->GetUserData().pointer;
-			if (userDataA) reinterpret_cast<class Player*>(userDataA)->OnCollision(approachVelocity * bodyB->GetMass(), userDataB);
-			if (userDataB) reinterpret_cast<class Player*>(userDataB)->OnCollision(approachVelocity * bodyA->GetMass(), userDataA);
-		}
+		uintptr_t actorA = bodyA->GetUserData().pointer;
+		uintptr_t actorB = bodyB->GetUserData().pointer;
+		if (actorA) reinterpret_cast<class Player*>(actorA)->OnCollision(velB.LengthSquared() * bodyB->GetMass() / 2.f, actorB);
+		if (actorB) reinterpret_cast<class Player*>(actorB)->OnCollision(velA.LengthSquared() * bodyA->GetMass() / 2.f, actorA);
 	}
 
 	void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) {}
+
 };
 
 class Game

@@ -81,7 +81,7 @@ void ControllerComponent::Update(float delta)
 		spawn += mToMouse;
 		if (!rcc.m_fixture)
 		{
-			mToMouse *= 40.f;
+			mToMouse *= 30.f;
 			new Projectile(mOwner->GetGame(), spawn, mToMouse);
 		}
 		mTimer = 0.f;

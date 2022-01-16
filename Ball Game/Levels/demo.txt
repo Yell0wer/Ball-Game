@@ -1,6 +1,6 @@
 50 10
-*vvvvvvvv*  *vvvvvvvvvvvvvvvvvvvvv*  *vvvvvvvvvvv*
->        < *#                     #* >           <
+*vvvvvvvv* *vvvvvvvvvvvvvvvvvvvvvvv* *vvvvvvvvvvv*
+>        < >                       < >           <
 >        < >                       < >           <
 >        < >                       #v#           <
 >        #v#                                     <
