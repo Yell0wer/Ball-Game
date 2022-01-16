@@ -12,6 +12,8 @@ public:
 	void SetBox(float w, float h, float d, float f);
 	void SetCircle(float r, float d, float f);
 
+	virtual void OnCollision(float impact, uintptr_t obj);
+
 protected:
 	void UpdateTrans();
 	b2Body* mBody;

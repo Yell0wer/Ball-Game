@@ -69,6 +69,9 @@ bool Game::Initialize()
 
 	mCamera = new Camera(this);
 
+	mContact = new ContactListener();
+	mWorld->SetContactListener(mContact); // temp
+
 	return 1;
 }
 

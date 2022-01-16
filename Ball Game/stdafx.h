@@ -11,6 +11,8 @@ typedef unsigned int uint;
 #include <utility>
 #include <cmath>
 #include <set>
+#include <cstdint>
+#include <typeinfo>
 
 // other libraries
 #include "SDL.h"
@@ -22,7 +24,6 @@ typedef unsigned int uint;
 // headers
 #include "Component.h"
 #include "SpriteComponent.h"
-#include "Game.h"
 #include "VertexArray.h"
 #include "Shader.h"
 #include "Actor.h"
@@ -35,5 +36,7 @@ typedef unsigned int uint;
 #include "Block.h"
 #include "Crate.h"
 #include "Camera.h"
+#include "Game.h"
 
-// TODO: enemies levels refinecamera animation ui audio
+// TODO: enemies bg animation refinecamera ui audio
+// organize headers?

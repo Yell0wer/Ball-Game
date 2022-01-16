@@ -7,7 +7,8 @@ public:
 
 	void UpdateActor(float delta) override;
 
+	void OnCollision(float impact, uintptr_t obj) override;
+
 private:
-
+    float mHealth;
 };
-

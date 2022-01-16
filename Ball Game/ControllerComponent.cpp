@@ -27,9 +27,7 @@ void ControllerComponent::ProcessInput(const uint8_t* keyState)
 	mMouseX /= 64.f;
 	mMouseY = static_cast<float>(mOwner->GetGame()->GetWindowHeight()) / 2.f - mMouseY;
 	mMouseY /= 64.f;
-	mToMouse = b2Vec2(mMouseX, mMouseY);
-	mToMouse += mOwner->GetGame()->GetCamera()->GetPos();
-	mToMouse -= mOwner->GetPos();
+	mToMouse = b2Vec2(mMouseX, mMouseY) + mOwner->GetGame()->GetCamera()->GetPos() - mOwner->GetPos();
 	mToMouse.Normalize();
 	memcpy(mCurrState, keyState, SDL_NUM_SCANCODES);
 }
@@ -40,19 +38,22 @@ void ControllerComponent::Update(float delta)
 	mIsGrounded = IsGrounded();
 	mTimer += delta;
 	b2Vec2 acc = b2Vec2(42.f, 0.f); // todo store constants
+
 	if (mCurrState[mLeft])
 	{
+		if (body->GetLinearVelocity().x < 0.f) mOwner->LoadTex("Assets/cyblob-l.png");
 		body->DestroyFixture(body->GetFixtureList());
 		mOwner->SetCircle(0.5f, 1.f, 0.f);
 		if (body->GetLinearVelocity().x > -mSpeedLim) body->ApplyForceToCenter(-acc, 1);
 	}
 	if (mCurrState[mRight])
 	{
+		if (body->GetLinearVelocity().x > 0.f) mOwner->LoadTex("Assets/cyblob-r.png");
 		body->DestroyFixture(body->GetFixtureList());
 		mOwner->SetCircle(0.5f, 1.f, 0.f);
 		if (body->GetLinearVelocity().x < mSpeedLim) body->ApplyForceToCenter(acc, 1);
 	}
-	if (!mCurrState[mRight] && !mCurrState[mLeft] && mIsGrounded)
+	if (mIsGrounded)
 	{
 		body->DestroyFixture(body->GetFixtureList());
 		mOwner->SetCircle(0.5f, 1.f, 1.f);
@@ -64,6 +65,10 @@ void ControllerComponent::Update(float delta)
 		body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, 10.f));
 		mNumJumps--;
 	}
+	if (GetKeyState(mCrouch) == EPressed)
+	{
+		body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, -20.f));
+	}
 
 	if (GetMouseButtonState(SDL_BUTTON_LEFT) == EPressed && mTimer > mCooldown)
 	{
@@ -72,7 +77,7 @@ void ControllerComponent::Update(float delta)
 		spawn += mToMouse;
 		mOwner->GetGame()->GetWorld()->RayCast(&rcc, mOwner->GetPos(), spawn);
 		spawn -= mToMouse;
-		mToMouse *= 0.75f;
+		mToMouse *= 0.9f;
 		spawn += mToMouse;
 		if (!rcc.m_fixture)
 		{
@@ -91,7 +96,7 @@ bool ControllerComponent::IsGrounded()
 {
 	RayCastCallback rcc;
 	b2Vec2 p2 = mOwner->GetPos();
-	p2 += b2Vec2(0.f, -0.6f);
+	p2 += b2Vec2(0.f, -0.55f);
 	mOwner->GetGame()->GetWorld()->RayCast(&rcc, mOwner->GetPos(), p2);
 	return rcc.m_fixture; // todo change to aabb
 }

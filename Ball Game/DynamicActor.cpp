@@ -6,6 +6,7 @@ DynamicActor::DynamicActor(class Game* game) :
 	b2BodyDef bodyDef;
 	bodyDef.type = b2_dynamicBody;
 	bodyDef.position.Set(mPos.x, mPos.y);
+	bodyDef.userData.pointer = (uintptr_t)this;
 	mBody = mGame->GetWorld()->CreateBody(&bodyDef);
 }
 
@@ -37,3 +38,5 @@ void DynamicActor::SetCircle(float r, float d, float f)
 	fixture.friction = f;
 	mBody->CreateFixture(&fixture);
 }
+
+void DynamicActor::OnCollision(float impact, uintptr_t obj) {}
