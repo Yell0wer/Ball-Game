@@ -3,9 +3,10 @@
 ControllerComponent::ControllerComponent(class Player* actor) :
 	Component(actor),
 	mSpeedLim(6.f),
-	mNumJumps(2),
+	mNumJumps(1),
 	mCooldown(0.5f),
-	mTimer(0.f)
+	mTimer(0.f),
+	mJumpTimer(0.f)
 {
 	mOwner = actor;
 
@@ -34,11 +35,13 @@ void ControllerComponent::ProcessInput(const uint8_t* keyState)
 
 void ControllerComponent::Update(float delta)
 {
-	mOwner->GetAnim()->PlayAnimation("idle" + mOwner->GetFacing(), 0);
 	b2Body* body = mOwner->GetBody();
 	mIsGrounded = IsGrounded();
 	mTimer += delta;
 	b2Vec2 acc = b2Vec2(42.f, 0.f); // todo store constants
+
+	if (mIsGrounded) mOwner->GetAnim()->PlayAnimation("idle" + mOwner->GetFacing(), 0, 0);
+	else mOwner->GetAnim()->PlayAnimation("float" + mOwner->GetFacing(), 0, 0);
 
 	if (mCurrState[mLeft])
 	{
@@ -46,7 +49,7 @@ void ControllerComponent::Update(float delta)
 		mOwner->SetCircle(0.5f, 1.f, 0.f);
 		if (body->GetLinearVelocity().x > -mSpeedLim) body->ApplyForceToCenter(-acc, 1);
 		if (body->GetLinearVelocity().x < 0) mOwner->SetFacing(1);
-		if (mIsGrounded) mOwner->GetAnim()->PlayAnimation("walk" + mOwner->GetFacing(), 1);
+		if (mIsGrounded) mOwner->GetAnim()->PlayAnimation("walk" + mOwner->GetFacing(), 1, 1);
 	}
 	if (mCurrState[mRight])
 	{
@@ -54,24 +57,33 @@ void ControllerComponent::Update(float delta)
 		mOwner->SetCircle(0.5f, 1.f, 0.f);
 		if (body->GetLinearVelocity().x < mSpeedLim) body->ApplyForceToCenter(acc, 1);
 		if (body->GetLinearVelocity().x > 0) mOwner->SetFacing(0);
-		if (mIsGrounded) mOwner->GetAnim()->PlayAnimation("walk" + mOwner->GetFacing(), 1);
+		if (mIsGrounded) mOwner->GetAnim()->PlayAnimation("walk" + mOwner->GetFacing(), 1, 1);
 	}
 	if (mIsGrounded)
 	{
+		mNumJumps = 1;
 		body->DestroyFixture(body->GetFixtureList());
 		mOwner->SetCircle(0.5f, 1.f, 1.f);
 	}
 
-	if (mIsGrounded) mNumJumps = 2;
 	if (GetKeyState(mJump) == EPressed && mNumJumps)
+	{
+		mJumpTimer += delta;
+		mOwner->GetAnim()->PlayAnimation("jump" + mOwner->GetFacing(), 1, 3);
+	}
+	if (mJumpTimer) mJumpTimer += delta;
+	if (mJumpTimer > 0.15f)
 	{
 		body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, 10.f));
 		mNumJumps--;
+		mJumpTimer = 0.f;
 	}
 	if (GetKeyState(mCrouch) == EPressed)
 	{
 		body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, -20.f));
 	}
+
+	if (mIsGrounded && !mWasGrounded) mOwner->GetAnim()->PlayAnimation("land" + mOwner->GetFacing(), 1, 2);
 
 	if (GetMouseButtonState(SDL_BUTTON_LEFT) == EPressed && mTimer > mCooldown)
 	{

@@ -33,7 +33,7 @@ private:
 	ButtonState GetKeyState(SDL_Scancode key) const;
 	ButtonState GetMouseButtonState(int button) const;
 
-	float mCooldown, mTimer;
+	float mCooldown, mTimer, mJumpTimer;
 	bool mIsGrounded, mWasGrounded;
 	int mNumJumps;
 	class Player* mOwner;
