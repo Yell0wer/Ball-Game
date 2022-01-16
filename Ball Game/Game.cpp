@@ -62,20 +62,12 @@ bool Game::Initialize()
 
 	mSquare = new VertexArray(v, 4, i, 6);
 
-	mCamera = new Camera(this);
-
-	b2Vec2 gravity(0.f, -10.f);
+	b2Vec2 gravity(0.f, -30.f);
 	mWorld = new b2World(gravity);
 
-	Actor* bg = new Actor(this, 1000);
-	bg->SetFollow(1);
-	bg->LoadTex("Assets/bg.png");
-	AddActor(bg);
+	LoadLevel("Levels/demo.txt");
 
-	Block* block = new Block(this, 500.f, 1.f, "Assets/block.png"); // temp
-	block->SetPos(b2Vec2(0.f, -3.f));
-	AddActor(block);
-	mPlayer = new Player(this);
+	mCamera = new Camera(this);
 
 	return 1;
 }
@@ -191,6 +183,52 @@ bool Game::LoadShaders()
 	mShader = new Shader();
 	if (!mShader->Load("Basic.vert", "Basic.frag")) return 0;
 	mShader->SetActive();
-	mShader->SetMatrixUniform("uViewTransform", Matrix4::CreateScale(64.f) * Matrix4::CreateSimpleViewProj(static_cast<float>(mWindowWidth), static_cast<float>(mWindowHeight)));
+	mShader->SetMatrixUniform("uViewTransform", Matrix4::CreateScale(48.f) * Matrix4::CreateSimpleViewProj(static_cast<float>(mWindowWidth), static_cast<float>(mWindowHeight)));
+	return 1;
+}
+
+bool Game::LoadLevel(const std::string& file)
+{
+	std::ifstream str(file);
+	str >> mLevelWidth >> mLevelHeight;
+	str.ignore();
+	for (int i = 0; i < mLevelHeight; i++)
+	{
+		std::getline(str, mLevel[i]);
+	}
+	std::string block = "";
+	for (int i = 0; i < mLevelHeight; i++)
+		for (int j = 0; j <= mLevelWidth; j++)
+		{
+			b2Vec2 pos = b2Vec2(static_cast<float>(j), static_cast<float>(-i));
+			if (mLevel[i][j] == 'v' ||
+				mLevel[i][j] == '>' ||
+				mLevel[i][j] == '^' ||
+				mLevel[i][j] == '<' ||
+				mLevel[i][j] == '*' ||
+				mLevel[i][j] == '#'
+				) block += mLevel[i][j];
+			else if (block != "")
+			{
+				Block* b = new Block(this, static_cast<float>(block.size()), 1.f, pos, block + '\n', "demo-walls"); // todo change to border
+				b->SetPos(b2Vec2(static_cast<float>((j + j - block.size()) / 2.f), static_cast<float>(-i)));
+				block = "";
+			}
+			switch (mLevel[i][j])
+			{
+			case 'P':
+			{
+				mPlayer = new Player(this);
+				mPlayer->SetPos(pos);
+				break;
+			}
+			case 'C':
+			{
+				Crate* c = new Crate(this);
+				c->SetPos(pos);
+				break;
+			}
+			}
+		}
 	return 1;
 }

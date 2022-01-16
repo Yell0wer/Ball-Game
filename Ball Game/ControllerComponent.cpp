@@ -3,7 +3,9 @@
 ControllerComponent::ControllerComponent(class DynamicActor* actor) :
 	Component(actor),
 	mSpeedLim(6.f),
-	mNumJumps(1)
+	mNumJumps(1),
+	mCooldown(0.5f),
+	mTimer(0.f)
 {
 	mOwner = actor;
 
@@ -27,7 +29,6 @@ void ControllerComponent::ProcessInput(const uint8_t* keyState)
 	mMouseY /= 64.f;
 	mToMouse = b2Vec2(mMouseX, mMouseY);
 	mToMouse += mOwner->GetGame()->GetCamera()->GetPos();
-	printf("%f, %f\n", mToMouse.x, mToMouse.y);
 	mToMouse -= mOwner->GetPos();
 	mToMouse.Normalize();
 	memcpy(mCurrState, keyState, SDL_NUM_SCANCODES);
@@ -36,30 +37,35 @@ void ControllerComponent::ProcessInput(const uint8_t* keyState)
 void ControllerComponent::Update(float delta)
 {
 	b2Body* body = mOwner->GetBody();
-	b2Vec2 acc = b2Vec2(42.f, 0.f);
+	mIsGrounded = IsGrounded();
+	mTimer += delta;
+	b2Vec2 acc = b2Vec2(42.f, 0.f); // todo store constants
 	if (mCurrState[mLeft])
 	{
-		body->GetFixtureList()->SetFriction(0.f);
+		body->DestroyFixture(body->GetFixtureList());
+		mOwner->SetCircle(0.5f, 1.f, 0.f);
 		if (body->GetLinearVelocity().x > -mSpeedLim) body->ApplyForceToCenter(-acc, 1);
 	}
 	if (mCurrState[mRight])
 	{
-		body->GetFixtureList()->SetFriction(0.f);
+		body->DestroyFixture(body->GetFixtureList());
+		mOwner->SetCircle(0.5f, 1.f, 0.f);
 		if (body->GetLinearVelocity().x < mSpeedLim) body->ApplyForceToCenter(acc, 1);
 	}
-	if (!mCurrState[mLeft] && !mCurrState[mRight] && IsGrounded()) {
+	if (!mCurrState[mRight] && !mCurrState[mLeft] && mIsGrounded)
+	{
 		body->DestroyFixture(body->GetFixtureList());
-		mOwner->SetCircle(0.5f, 1.f, 8.f);
+		mOwner->SetCircle(0.5f, 1.f, 1.f);
 	}
 
-	if (IsGrounded()) mNumJumps = 1;
+	if (mIsGrounded) mNumJumps = 1;
 	if (GetKeyState(mJump) == EPressed && mNumJumps)
 	{
-		body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, 6.f));
+		body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, 10.f));
 		mNumJumps--;
 	}
 
-	if (GetMouseButtonState(SDL_BUTTON_LEFT) == EPressed)
+	if (GetMouseButtonState(SDL_BUTTON_LEFT) == EPressed && mTimer > mCooldown)
 	{
 		RayCastCallback rcc;
 		b2Vec2 spawn = mOwner->GetPos();
@@ -70,12 +76,14 @@ void ControllerComponent::Update(float delta)
 		spawn += mToMouse;
 		if (!rcc.m_fixture)
 		{
-			mToMouse *= 15.f;
+			mToMouse *= 40.f;
 			new Projectile(mOwner->GetGame(), spawn, mToMouse);
 		}
+		mTimer = 0.f;
 	}
 
 	mPrevMouse = mCurrMouse;
+	mWasGrounded = mIsGrounded;
 	memcpy(mPrevState, mCurrState, SDL_NUM_SCANCODES);
 }
 
@@ -83,9 +91,9 @@ bool ControllerComponent::IsGrounded()
 {
 	RayCastCallback rcc;
 	b2Vec2 p2 = mOwner->GetPos();
-	p2 += b2Vec2(0.f, -0.51f);
+	p2 += b2Vec2(0.f, -0.6f);
 	mOwner->GetGame()->GetWorld()->RayCast(&rcc, mOwner->GetPos(), p2);
-	return rcc.m_fixture;
+	return rcc.m_fixture; // todo change to aabb
 }
 
 ButtonState ControllerComponent::GetKeyState(SDL_Scancode key) const

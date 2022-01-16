@@ -20,7 +20,7 @@ public:
 	void UpdateComponents(float delta);
 	virtual void UpdateActor(float delta);
 
-	void Draw();
+	virtual void Draw();
 
 	void AddComponent(class Component* c);
 	void RemoveComponent(class Component* c);

@@ -1,0 +1,11 @@
+50 10
+*vvvvvvvv* *vvvvvvvvvvvvvvvvvvvvvvv* *vvvvvvvvvvv*
+>        < >                       < >           <
+>        < >                       < >           <
+>        < >                       #v#           <
+>        #v#                                     <
+>                                   S            <
+> P  D                             #^#           <
+*^^^^^^^^^^#            C          < >           <
+           >          CCCC         < >    B    F <
+           *^^^^^^^^^^^^^^^^^^^^^^^* *^^^^^^^^^^^*

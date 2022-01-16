@@ -18,9 +18,14 @@ public:
 	class Camera* GetCamera() const { return mCamera; }
 	int GetWindowWidth() const { return mWindowWidth; }
 	int GetWindowHeight() const { return mWindowHeight; }
+	int GetLevelWidth() const { return mWindowWidth; }
+	int GetLevelHeight() const { return mWindowHeight; }
+
+	std::string mLevel[500]; // todo make level private
 
 private:
 	// helper functions
+	bool LoadLevel(const std::string& file);
 	void ProcessInput();
 	void UpdateGame();
 	void GenerateOutput();
@@ -30,6 +35,7 @@ private:
 	class Player* mPlayer;
 	SDL_Window* mWindow;
 	int mWindowWidth, mWindowHeight;
+	int mLevelWidth, mLevelHeight;
 	SDL_GLContext mContext;
 	const Uint8* mKeyboardState;
 	Uint32 mTickCount;

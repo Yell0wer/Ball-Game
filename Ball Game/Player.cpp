@@ -6,7 +6,7 @@ Player::Player(class Game* game) :
 	mBody->SetFixedRotation(1);
 	SetCircle(0.5f, 1.f, 5.f);
 	AddComponent(new ControllerComponent(this));
-	LoadTex("Assets/char.png");
+	LoadTex("Assets/cyblob.png");
 }
 
 void Player::UpdateActor(float delta)

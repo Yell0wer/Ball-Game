@@ -57,7 +57,7 @@ void Actor::Draw()
 
 void Actor::ComputeWorldTransform()
 {
-	mWorldTransform = Matrix4::CreateScale(mSca*0.0625f) * Matrix4::CreateRotationZ(mRot) * Matrix4::CreateTranslation(Vector3(mFollowPlayer ? mPos.x : mPos.x - mGame->GetCamera()->GetPos().x, mFollowPlayer ? mPos.y : mPos.y - mGame->GetCamera()->GetPos().y, 0.f));
+	mWorldTransform = Matrix4::CreateScale(mSca/16.f) * Matrix4::CreateRotationZ(mRot) * Matrix4::CreateTranslation(Vector3(mFollowPlayer ? mPos.x : mPos.x - mGame->GetCamera()->GetPos().x, mFollowPlayer ? mPos.y : mPos.y - mGame->GetCamera()->GetPos().y, 0.f));
 	// TODO: inform components
 }
 
