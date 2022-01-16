@@ -4,7 +4,7 @@ Crate::Crate(class Game* game) :
 	DynamicActor(game)
 {
 	SetBox(1.f, 1.f, 5.f, 1.f);
-	LoadTex("Assets/crate2.png");
+	LoadTex("Assets/crate3.png");
 }
 
 void Crate::UpdateActor(float delta)

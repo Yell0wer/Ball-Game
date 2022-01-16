@@ -11,7 +11,7 @@ enum ButtonState
 class ControllerComponent : public Component
 {
 public:
-	ControllerComponent(class DynamicActor* actor);
+	ControllerComponent(class Player* actor);
 
 	void ProcessInput(const uint8_t* keyState) override;
 	void Update(float delta) override;
@@ -36,7 +36,7 @@ private:
 	float mCooldown, mTimer;
 	bool mIsGrounded, mWasGrounded;
 	int mNumJumps;
-	class DynamicActor* mOwner;
+	class Player* mOwner;
 	float mMouseX, mMouseY;
 	b2Vec2 mToMouse;
 	float mSpeedLim;

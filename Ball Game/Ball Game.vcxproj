@@ -162,9 +162,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
+    <ClCompile Include="AnimatedSpriteComponent.cpp" />
     <ClCompile Include="Ball Game.cpp" />
     <ClCompile Include="Block.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="ContactListener.cpp" />
     <ClCompile Include="Crate.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ControllerComponent.cpp" />
@@ -181,8 +183,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Actor.h" />
+    <ClInclude Include="AnimatedSpriteComponent.h" />
     <ClInclude Include="Block.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="ContactListener.h" />
     <ClInclude Include="Crate.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ControllerComponent.h" />

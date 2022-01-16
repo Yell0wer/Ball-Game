@@ -36,8 +36,8 @@ void Actor::Update(float delta)
 	if (mState == EActive)
 	{
 		ComputeWorldTransform();
-		UpdateComponents(delta);
 		UpdateActor(delta);
+		UpdateComponents(delta);
 		ComputeWorldTransform();
 	}
 	if (mState == EDead) delete this;

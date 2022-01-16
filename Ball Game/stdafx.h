@@ -2,6 +2,8 @@
 #define GLEW_STATIC
 typedef unsigned int uint;
 // std libraries
+#include <map>
+#include <unordered_map>
 #include <iostream>
 #include <fstream>
 #include <sstream>
@@ -24,6 +26,7 @@ typedef unsigned int uint;
 // headers
 #include "Component.h"
 #include "SpriteComponent.h"
+#include "AnimatedSpriteComponent.h"
 #include "VertexArray.h"
 #include "Shader.h"
 #include "Actor.h"
@@ -36,7 +39,9 @@ typedef unsigned int uint;
 #include "Block.h"
 #include "Crate.h"
 #include "Camera.h"
+#include "ContactListener.h"
 #include "Game.h"
+
 
 // TODO: enemies bg animation refinecamera ui audio
 // organize headers?

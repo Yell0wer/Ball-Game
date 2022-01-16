@@ -12,7 +12,7 @@ public:
 	int GetTexWidth() const { return mTexWidth; }
 	int GetTexHeight() const { return mTexHeight; }
 
-private:
+protected:
 	class Texture* mTexture;
 	float mOffset;
 	int mTexWidth, mTexHeight;

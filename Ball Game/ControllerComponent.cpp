@@ -1,9 +1,9 @@
 #include "stdafx.h"
 
-ControllerComponent::ControllerComponent(class DynamicActor* actor) :
+ControllerComponent::ControllerComponent(class Player* actor) :
 	Component(actor),
 	mSpeedLim(6.f),
-	mNumJumps(1),
+	mNumJumps(2),
 	mCooldown(0.5f),
 	mTimer(0.f)
 {
@@ -34,6 +34,7 @@ void ControllerComponent::ProcessInput(const uint8_t* keyState)
 
 void ControllerComponent::Update(float delta)
 {
+	mOwner->GetAnim()->PlayAnimation("idle" + mOwner->GetFacing(), 0);
 	b2Body* body = mOwner->GetBody();
 	mIsGrounded = IsGrounded();
 	mTimer += delta;
@@ -41,17 +42,19 @@ void ControllerComponent::Update(float delta)
 
 	if (mCurrState[mLeft])
 	{
-		if (body->GetLinearVelocity().x < 0.f) mOwner->LoadTex("Assets/cyblob-l.png");
 		body->DestroyFixture(body->GetFixtureList());
 		mOwner->SetCircle(0.5f, 1.f, 0.f);
 		if (body->GetLinearVelocity().x > -mSpeedLim) body->ApplyForceToCenter(-acc, 1);
+		if (body->GetLinearVelocity().x < 0) mOwner->SetFacing(1);
+		if (mIsGrounded) mOwner->GetAnim()->PlayAnimation("walk" + mOwner->GetFacing(), 1);
 	}
 	if (mCurrState[mRight])
 	{
-		if (body->GetLinearVelocity().x > 0.f) mOwner->LoadTex("Assets/cyblob-r.png");
 		body->DestroyFixture(body->GetFixtureList());
 		mOwner->SetCircle(0.5f, 1.f, 0.f);
 		if (body->GetLinearVelocity().x < mSpeedLim) body->ApplyForceToCenter(acc, 1);
+		if (body->GetLinearVelocity().x > 0) mOwner->SetFacing(0);
+		if (mIsGrounded) mOwner->GetAnim()->PlayAnimation("walk" + mOwner->GetFacing(), 1);
 	}
 	if (mIsGrounded)
 	{
@@ -59,7 +62,7 @@ void ControllerComponent::Update(float delta)
 		mOwner->SetCircle(0.5f, 1.f, 1.f);
 	}
 
-	if (mIsGrounded) mNumJumps = 1;
+	if (mIsGrounded) mNumJumps = 2;
 	if (GetKeyState(mJump) == EPressed && mNumJumps)
 	{
 		body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, 10.f));
