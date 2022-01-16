@@ -59,13 +59,13 @@ void ControllerComponent::Update(float delta)
 		if (body->GetLinearVelocity().x > 0) mOwner->SetFacing(0);
 		if (mIsGrounded) mOwner->GetAnim()->PlayAnimation("walk" + mOwner->GetFacing(), 1, 1);
 	}
-	if (mIsGrounded)
+	if (mIsGrounded && !mCurrState[mRight] && !mCurrState[mLeft])
 	{
-		mNumJumps = 1;
 		body->DestroyFixture(body->GetFixtureList());
 		mOwner->SetCircle(0.5f, 1.f, 1.f);
 	}
 
+	if(mIsGrounded) mNumJumps = 1;
 	if (GetKeyState(mJump) == EPressed && mNumJumps)
 	{
 		mJumpTimer += delta;

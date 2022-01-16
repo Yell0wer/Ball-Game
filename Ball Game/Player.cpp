@@ -17,7 +17,7 @@ Player::Player(class Game* game) :
 	// float
 	LoadAnim("float", 50, 1);
 	// walk
-	LoadAnim("walk", 16, 7);
+	LoadAnim("walk", 24, 7);
 	// jump
 	LoadAnim("jump", 40, 6); // todo fix jump animation
 	// land
