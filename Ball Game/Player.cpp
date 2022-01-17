@@ -41,7 +41,7 @@ void Player::OnCollision(float impact, uintptr_t obj)
 	Projectile* proj = dynamic_cast<Projectile*>(ptr);
 	if (proj)
 	{
-		mHealth -= std::max(0.f, impact / 10.f - 10.f);
+		mHealth -= std::max(0.f, impact / 10.f - 5.f);
 		printf("%f\n", mHealth);
 	}
 }

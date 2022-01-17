@@ -16,7 +16,6 @@ public:
 	void ProcessInput(const uint8_t* keyState) override;
 	void Update(float delta) override;
 
-	bool IsGrounded(); // todo implement in dynamic actor
 
 	int GetLeft() const { return mLeft; }
 	int GetRight() const { return mRight; }
@@ -34,7 +33,7 @@ private:
 	ButtonState GetMouseButtonState(int button) const;
 
 	float mCooldown, mTimer, mJumpTimer;
-	bool mIsGrounded, mWasGrounded;
+	bool mIsGrounded, mWasGrounded, mJumpGrounded;
 	int mNumJumps;
 	class Player* mOwner;
 	float mMouseX, mMouseY;

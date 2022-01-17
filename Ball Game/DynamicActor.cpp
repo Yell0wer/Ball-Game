@@ -40,3 +40,13 @@ void DynamicActor::SetCircle(float r, float d, float f)
 }
 
 void DynamicActor::OnCollision(float impact, uintptr_t obj) {}
+
+bool DynamicActor::IsGrounded(float w, float h)
+{
+	QueryCallback callback;
+	b2AABB aabb;
+	aabb.upperBound = b2Vec2(mPos.x + w / 2.f, mPos.y);
+	aabb.lowerBound = b2Vec2(mPos.x - w / 2.f, mPos.y - h);
+	mGame->GetWorld()->QueryAABB(&callback, aabb);
+	return callback.m_found > 1;
+}

@@ -14,8 +14,23 @@ public:
 
 	virtual void OnCollision(float impact, uintptr_t obj);
 
+	bool IsGrounded(float w, float h);
+
 protected:
 	void UpdateTrans();
 	b2Body* mBody;
 };
 
+class QueryCallback : public b2QueryCallback
+{
+public:
+	QueryCallback() {}
+
+	int m_found = 0;
+
+	bool ReportFixture(b2Fixture* fixture)
+	{
+		m_found++;
+		return 1;
+	}
+};

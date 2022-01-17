@@ -43,5 +43,5 @@ typedef unsigned int uint;
 #include "Game.h"
 
 
-// TODO: enemies bg animation refinecamera ui audio
+// TODO: enemies bg refinecamera ui audio
 // organize headers?
