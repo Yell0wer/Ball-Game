@@ -22,11 +22,14 @@ void Character::Draw()
 
 void Character::OnCollision(float impact, uintptr_t obj)
 {
-	Actor* ptr = (Actor*)obj;
-	DynamicActor* proj = dynamic_cast<DynamicActor*>(ptr);
-	if (proj)
+	if (dynamic_cast<DynamicActor*>((Actor*)obj))
 	{
-		mHealth -= std::max(0.f, impact / 10.f - 5.f);
+		float dmg = std::max(0.f, impact / 10.f - 5.f);
+		if (dmg)
+		{
+			new Particle(mGame, "damage", 8, 1, mPos);
+			mHealth -= dmg + 5.f;
+		}
 		printf("%f\n", mHealth);
 	}
 }

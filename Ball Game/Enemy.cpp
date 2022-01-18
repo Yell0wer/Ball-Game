@@ -18,6 +18,8 @@ Enemy::Enemy(class Game* game) :
 	LoadAnim("char", "jump", 40, 6);
 	// land
 	LoadAnim("char", "land", 60, 5);
+
+	AddComponent(new AIControllerComponent(this));
 }
 
 

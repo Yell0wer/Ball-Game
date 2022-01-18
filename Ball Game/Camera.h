@@ -12,6 +12,6 @@ public:
 
 private:
 	class Game* mGame;
-	b2Vec2 mPos;
+	b2Vec2 mPos, mVel, mVelLim;
 };
 

@@ -43,7 +43,9 @@ typedef unsigned int uint;
 #include "ContactListener.h"
 #include "Game.h"
 #include "Enemy.h"
+#include "PlayerControllerComponent.h"
+#include "AIControllerComponent.h"
+#include "Particle.h"
 
-
-// TODO: enemies bg refinecamera particlefx ui audio
+// TODO: bg particlefx ui audio enemymovement?
 // organize headers?

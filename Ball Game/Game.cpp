@@ -65,13 +65,13 @@ bool Game::Initialize()
 	b2Vec2 gravity(0.f, -30.f);
 	mWorld = new b2World(gravity);
 
-	mCamera = new Camera(this);
-
 	mContact = new ContactListener();
 	mWorld->SetContactListener(mContact); // temp
 
 	mPlayer = new Player(this);
 	LoadLevel("Levels/demo.txt");
+
+	mCamera = new Camera(this);
 
 	return 1;
 }
