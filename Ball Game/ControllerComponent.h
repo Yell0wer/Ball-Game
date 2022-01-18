@@ -29,9 +29,14 @@ public:
 	void SetCrouch(SDL_Scancode key) { mCrouch = key; }
 
 private:
+	void ComputeMousePos(const uint8_t* keyState);
 	ButtonState GetKeyState(SDL_Scancode key) const;
 	ButtonState GetMouseButtonState(int button) const;
+	void Move(bool l, b2Body* body);
+	void Jump(float delta, b2Body* body);
+	void Shoot();
 
+	b2Vec2 mAcceleration;
 	float mCooldown, mTimer, mJumpTimer;
 	bool mIsGrounded, mWasGrounded, mJumpGrounded;
 	int mNumJumps;
@@ -40,7 +45,7 @@ private:
 	b2Vec2 mToMouse;
 	float mSpeedLim;
 	SDL_Scancode mLeft, mRight, mJump, mShoot, mCrouch;
-	uint8_t mCurrState[SDL_NUM_SCANCODES], mPrevState[SDL_NUM_SCANCODES];
+	uint8_t mCurrKeyboardState[SDL_NUM_SCANCODES], mPrevKeyboardState[SDL_NUM_SCANCODES];
 	Uint32 mCurrMouse, mPrevMouse;
 };
 

@@ -171,6 +171,7 @@
     <ClCompile Include="Crate.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="ControllerComponent.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="Math.cpp" />
     <ClCompile Include="DynamicActor.cpp" />
@@ -192,6 +193,7 @@
     <ClInclude Include="Crate.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="ControllerComponent.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="Math.h" />
     <ClInclude Include="DynamicActor.h" />

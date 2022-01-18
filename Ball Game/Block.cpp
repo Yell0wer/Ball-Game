@@ -8,17 +8,17 @@ Block::Block(class Game* game, float w, float h, b2Vec2 end, const std::string& 
 	// TODO FIX THIS MESS
 	SetBox(w, h, 1.f); // this shit really stinks don't touch
 
-	for (int i = 0; i < model.size(); i++)
+	for (uint i = 0; i < model.size(); i++)
 	{
 		class Texture* t = new Texture();
 		if (model[i] == '^') t->Load("Assets/" + texType + "/2.png");
 		else if(model[i] == 'v') t->Load("Assets/" + texType + "/8.png");
 		else if (model[i] == '>') t->Load("Assets/" + texType + "/4.png");
 		else if (model[i] == '<') t->Load("Assets/" + texType + "/6.png");
-		else if (model[i] == '*')
+		int r = static_cast<int>(-end.y);
+		int c = static_cast<int>(end.x - model.size() + 1 + i);
+		if (model[i] == '*')
 		{
-			int r = -end.y;
-			int c = end.x - (int)model.size() + 1 + i;
 			if (r > 0)
 			{
 				if (IsBlock(mGame->mLevel[r][c + 1]) && IsBlock(mGame->mLevel[r - 1][c])) t->Load("Assets/" + texType + "/1.png");
@@ -31,8 +31,6 @@ Block::Block(class Game* game, float w, float h, b2Vec2 end, const std::string& 
 		}
 		else if (model[i] == '#')
 		{
-			int r = -end.y;
-			int c = end.x - (int)model.size() + 1 + i;
 			if (r > 0)
 			{
 				if (IsBlock(mGame->mLevel[r][c + 1]) && IsBlock(mGame->mLevel[r - 1][c])) t->Load("Assets/" + texType + "/1e.png");

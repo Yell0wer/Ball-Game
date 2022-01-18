@@ -71,7 +71,7 @@ bool Game::Initialize()
 	mWorld->SetContactListener(mContact); // temp
 
 	mPlayer = new Player(this);
-	LoadLevel("Levels/box.txt");
+	LoadLevel("Levels/demo.txt");
 
 	return 1;
 }
@@ -237,6 +237,12 @@ bool Game::LoadLevel(const std::string& file)
 			{
 				Crate* c = new Crate(this);
 				c->SetPos(pos);
+				break;
+			}
+			case 'E':
+			{
+				Enemy* e = new Enemy(this);
+				e->SetPos(pos);
 				break;
 			}
 			}

@@ -24,5 +24,6 @@ private:
 	std::string mCurrAnim;
 	int mOverrideOrder;
 	std::unordered_map<std::string, Animation*> mAnimations;
+	class Texture* mCurrFrame;
 };
 

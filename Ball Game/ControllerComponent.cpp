@@ -6,7 +6,8 @@ ControllerComponent::ControllerComponent(class Player* actor) :
 	mNumJumps(1),
 	mCooldown(0.5f),
 	mTimer(0.f),
-	mJumpTimer(0.f)
+	mJumpTimer(0.f),
+	mAcceleration(b2Vec2(42.f, 0.f))
 {
 	mOwner = actor;
 
@@ -20,6 +21,12 @@ ControllerComponent::ControllerComponent(class Player* actor) :
 
 void ControllerComponent::ProcessInput(const uint8_t* keyState)
 {
+	ComputeMousePos(keyState);
+	memcpy(mCurrKeyboardState, keyState, SDL_NUM_SCANCODES);
+}
+
+void ControllerComponent::ComputeMousePos(const uint8_t* keyState)
+{
 	int x, y;
 	mCurrMouse = SDL_GetMouseState(&x, &y);
 	mMouseX = static_cast<float>(x);
@@ -30,7 +37,44 @@ void ControllerComponent::ProcessInput(const uint8_t* keyState)
 	mMouseY /= 64.f;
 	mToMouse = b2Vec2(mMouseX, mMouseY) + mOwner->GetGame()->GetCamera()->GetPos() - mOwner->GetPos();
 	mToMouse.Normalize();
-	memcpy(mCurrState, keyState, SDL_NUM_SCANCODES);
+}
+
+void ControllerComponent::Move(bool l, b2Body* body)
+{
+	body->DestroyFixture(body->GetFixtureList());
+	mOwner->SetCircle(0.5f, 1.f, 0.f);
+	if (body->GetLinearVelocity().x >= -mSpeedLim && l) body->ApplyForceToCenter(-mAcceleration, 1);
+	if (body->GetLinearVelocity().x <= mSpeedLim && !l) body->ApplyForceToCenter(mAcceleration, 1);
+	if (body->GetLinearVelocity().x != 0) mOwner->SetFacing(body->GetLinearVelocity().x < 0);
+	if (mIsGrounded) mOwner->GetAnim()->PlayAnimation("walk" + mOwner->GetFacing(), 1, 1);
+}
+
+void ControllerComponent::Jump(float delta, b2Body* body)
+{
+	if (mJumpTimer) mJumpTimer += delta;
+	if (mJumpTimer > 0.15f)
+	{
+		body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, 10.f));
+		mNumJumps--;
+		mJumpTimer = 0.f;
+	}
+}
+
+void ControllerComponent::Shoot()
+{
+	RayCastCallback rcc;
+	b2Vec2 spawn = mOwner->GetPos();
+	spawn += mToMouse;
+	mOwner->GetGame()->GetWorld()->RayCast(&rcc, mOwner->GetPos(), spawn);
+	spawn -= mToMouse;
+	mToMouse *= 0.9f;
+	spawn += mToMouse;
+	if (!rcc.m_fixture)
+	{
+		mToMouse *= 80.f;
+		new Projectile(mOwner->GetGame(), spawn, mToMouse);
+		mTimer = 0.f;
+	}
 }
 
 void ControllerComponent::Update(float delta) // todo encapsulate logic
@@ -39,91 +83,51 @@ void ControllerComponent::Update(float delta) // todo encapsulate logic
 	mIsGrounded = mOwner->IsGrounded(0.2f, 0.5f);
 	mJumpGrounded = mOwner->IsGrounded(0.9f, 0.6f);
 	mTimer += delta;
-	b2Vec2 acc = b2Vec2(42.f, 0.f); // todo store constants
 
 	if (mIsGrounded) mOwner->GetAnim()->PlayAnimation("idle" + mOwner->GetFacing(), 0, 0);
 	else mOwner->GetAnim()->PlayAnimation("float" + mOwner->GetFacing(), 0, 0);
 
-	if (mCurrState[mLeft])
-	{
-		body->DestroyFixture(body->GetFixtureList());
-		mOwner->SetCircle(0.5f, 1.f, 0.f);
-		if (body->GetLinearVelocity().x > -mSpeedLim) body->ApplyForceToCenter(-acc, 1);
-		if (body->GetLinearVelocity().x < 0)
-		{
-			mOwner->SetFacing(1);
-			if (mIsGrounded) mOwner->GetAnim()->PlayAnimation("walk" + mOwner->GetFacing(), 1, 1);
-		}
-	}
-	if (mCurrState[mRight])
-	{
-		body->DestroyFixture(body->GetFixtureList());
-		mOwner->SetCircle(0.5f, 1.f, 0.f);
-		if (body->GetLinearVelocity().x < mSpeedLim) body->ApplyForceToCenter(acc, 1);
-		if (body->GetLinearVelocity().x > 0)
-		{
-			mOwner->SetFacing(0);
-			if (mIsGrounded) mOwner->GetAnim()->PlayAnimation("walk" + mOwner->GetFacing(), 1, 1);
-		}
-	}
-	if (mIsGrounded && !mCurrState[mRight] && !mCurrState[mLeft])
+	if (mCurrKeyboardState[mLeft]) Move(1, body);
+	if (mCurrKeyboardState[mRight]) Move(0, body);
+
+	if (mIsGrounded && !mCurrKeyboardState[mRight] && !mCurrKeyboardState[mLeft])
 	{
 		body->DestroyFixture(body->GetFixtureList());
 		mOwner->SetCircle(0.5f, 1.f, 1.f);
 	}
 
-	if(mIsGrounded) mNumJumps = 1;
+	if (mIsGrounded) mNumJumps = 1;
 	if (GetKeyState(mJump) == EPressed && mJumpGrounded/* && mNumJumps*/)
 	{
 		mJumpTimer += delta;
 		mOwner->GetAnim()->PlayAnimation("jump" + mOwner->GetFacing(), 1, 3);
 	}
-	if (mJumpTimer) mJumpTimer += delta;
-	if (mJumpTimer > 0.15f)
-	{
-		body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, 10.f));
-		mNumJumps--;
-		mJumpTimer = 0.f;
-	}
-	if (GetKeyState(mCrouch) == EPressed)
-	{
-		body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, -20.f));
-	}
+	Jump(delta, body);
+	
+	//if (GetKeyState(mCrouch) == EPressed)
+	//{
+	//	body->SetLinearVelocity(b2Vec2(body->GetLinearVelocity().x, -20.f));
+	//}
 
 	if (mIsGrounded && !mWasGrounded) mOwner->GetAnim()->PlayAnimation("land" + mOwner->GetFacing(), 1, 2);
 
-	if (GetMouseButtonState(SDL_BUTTON_LEFT) == EPressed && mTimer > mCooldown)
-	{
-		RayCastCallback rcc;
-		b2Vec2 spawn = mOwner->GetPos();
-		spawn += mToMouse;
-		mOwner->GetGame()->GetWorld()->RayCast(&rcc, mOwner->GetPos(), spawn);
-		spawn -= mToMouse;
-		mToMouse *= 0.9f;
-		spawn += mToMouse;
-		if (!rcc.m_fixture)
-		{
-			mToMouse *= 80.f;
-			new Projectile(mOwner->GetGame(), spawn, mToMouse);
-			mTimer = 0.f;
-		}
-	}
+	if (GetMouseButtonState(SDL_BUTTON_LEFT) == EPressed && mTimer > mCooldown) Shoot();
 
-	mPrevMouse = mCurrMouse;
 	mWasGrounded = mIsGrounded;
-	memcpy(mPrevState, mCurrState, SDL_NUM_SCANCODES);
+	mPrevMouse = mCurrMouse;
+	memcpy(mPrevKeyboardState, mCurrKeyboardState, SDL_NUM_SCANCODES);
 }
 
 ButtonState ControllerComponent::GetKeyState(SDL_Scancode key) const
 {
-	if (mPrevState[key])
+	if (mPrevKeyboardState[key])
 	{
-		if (mCurrState[key]) return EHeld;
+		if (mCurrKeyboardState[key]) return EHeld;
 		else return EReleased;
 	}
 	else
 	{
-		if (mCurrState[key]) return EPressed;
+		if (mCurrKeyboardState[key]) return EPressed;
 		else return ENone;
 	}
 }

@@ -16,7 +16,7 @@ public:
 	void SetFacing(bool l) { mFacing = l; }
 
 protected:
-	void LoadAnim(const std::string& name, int fps, int frames);
+	void LoadAnim(const std::string& base, const std::string& name, int fps, int frames);
 
 	float mHealth;
 	AnimatedSpriteComponent* mAnim;

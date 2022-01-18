@@ -25,6 +25,7 @@ typedef unsigned int uint;
 
 // headers
 #include "Component.h"
+#include "Texture.h"
 #include "SpriteComponent.h"
 #include "AnimatedSpriteComponent.h"
 #include "VertexArray.h"
@@ -33,7 +34,6 @@ typedef unsigned int uint;
 #include "DynamicActor.h"
 #include "StaticActor.h"
 #include "Character.h"
-#include "Texture.h"
 #include "Projectile.h"
 #include "Player.h"
 #include "ControllerComponent.h"
@@ -42,7 +42,8 @@ typedef unsigned int uint;
 #include "Camera.h"
 #include "ContactListener.h"
 #include "Game.h"
+#include "Enemy.h"
 
 
-// TODO: enemies bg refinecamera ui audio
+// TODO: enemies bg refinecamera particlefx ui audio
 // organize headers?

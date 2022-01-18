@@ -21,12 +21,12 @@ void AnimatedSpriteComponent::Update(float delta)
 
 void AnimatedSpriteComponent::Draw(class Shader* shader)
 {
-	Texture* currFrame = mAnimations[mCurrAnim]->Frames[static_cast<int>(mAnimations[mCurrAnim]->CurrFrame)];
-	mTexWidth = currFrame->GetWidth();
-	mTexHeight = currFrame->GetHeight();
+	if(mCurrAnim != "") mCurrFrame = mAnimations[mCurrAnim]->Frames[static_cast<int>(mAnimations[mCurrAnim]->CurrFrame)];
+	mTexWidth = mCurrFrame->GetWidth();
+	mTexHeight = mCurrFrame->GetHeight();
 	Matrix4 w = Matrix4::CreateTranslation(Vector3(mOffset, 0.f, 0.f)) * Matrix4::CreateScale(static_cast<float>(mTexWidth), static_cast<float>(mTexHeight), 1.f) * mOwner->GetWorldTransform();
 
 	shader->SetMatrixUniform("uWorldTransform", w);
-	currFrame->SetActive();
+	mCurrFrame->SetActive();
 	glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 }

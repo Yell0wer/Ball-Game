@@ -1,11 +1,10 @@
 #include "stdafx.h"
 
-Player::Player(class Game* game) : 
+Enemy::Enemy(class Game* game) :
 	Character(game)
 {
 	SetCircle(0.5f, 1.f, 1.f);
 	mBody->GetFixtureList()->SetRestitution(0.3f);
-	AddComponent(new ControllerComponent(this));
 
 	mHealth = mBody->GetMass() * 127.3239518f; // funny constant
 
@@ -21,7 +20,9 @@ Player::Player(class Game* game) :
 	LoadAnim("char", "land", 60, 5);
 }
 
-void Player::UpdateActor(float delta)
+
+void Enemy::UpdateActor(float delta)
 {
+	mAnim->PlayAnimation("idle" + GetFacing(), 0, 0);
 	Character::UpdateActor(delta);
 }
