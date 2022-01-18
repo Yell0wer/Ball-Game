@@ -33,7 +33,7 @@ void ControllerComponent::ProcessInput(const uint8_t* keyState)
 	memcpy(mCurrState, keyState, SDL_NUM_SCANCODES);
 }
 
-void ControllerComponent::Update(float delta)
+void ControllerComponent::Update(float delta) // todo encapsulate logic
 {
 	b2Body* body = mOwner->GetBody();
 	mIsGrounded = mOwner->IsGrounded(0.2f, 0.5f);
@@ -103,7 +103,7 @@ void ControllerComponent::Update(float delta)
 		spawn += mToMouse;
 		if (!rcc.m_fixture)
 		{
-			mToMouse *= 20.f;
+			mToMouse *= 80.f;
 			new Projectile(mOwner->GetGame(), spawn, mToMouse);
 			mTimer = 0.f;
 		}

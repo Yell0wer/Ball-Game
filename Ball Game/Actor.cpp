@@ -17,7 +17,8 @@ Actor::~Actor()
 {
 	mGame->RemoveActor(this);
 	delete mSprite;
-	while (!mComponents.empty()) delete mComponents.back();
+	while (!mComponents.empty())
+		delete mComponents.back();
 }
 
 void Actor::ProcessInput(const uint8_t* keyState)
@@ -40,7 +41,6 @@ void Actor::Update(float delta)
 		UpdateComponents(delta);
 		ComputeWorldTransform();
 	}
-	if (mState == EDead) delete this;
 }
 
 void Actor::UpdateComponents(float delta)

@@ -7,5 +7,5 @@ Camera::Camera(class Game* game) :
 
 void Camera::Update(float delta)
 {
-	mPos.x = mGame->GetPlayer()->GetPos().x; // temp
+	mPos = mGame->GetPlayer()->GetPos(); // temp
 }

@@ -65,12 +65,13 @@ bool Game::Initialize()
 	b2Vec2 gravity(0.f, -30.f);
 	mWorld = new b2World(gravity);
 
-	LoadLevel("Levels/demo.txt");
-
 	mCamera = new Camera(this);
 
 	mContact = new ContactListener();
 	mWorld->SetContactListener(mContact); // temp
+
+	mPlayer = new Player(this);
+	LoadLevel("Levels/box.txt");
 
 	return 1;
 }
@@ -88,6 +89,7 @@ void Game::RunLoop()
 
 void Game::Shutdown()
 {
+	while (!mActors.empty()) delete mActors.back();
 	SDL_GL_DeleteContext(mContext);
 	SDL_DestroyWindow(mWindow);
 	SDL_Quit();
@@ -124,13 +126,20 @@ void Game::UpdateGame()
 	delta = std::min(delta, 0.05f);
 	// update tick count
 	mTickCount = SDL_GetTicks();
-	mWorld->Step(delta, mVelIter, mPosIter);
 	// update actors
 	mActorsUpdating = 1;
-	for (auto a : mActors) a->Update(delta);
+	for (auto a : mActors)
+	{
+		a->Update(delta);
+		if (a->GetState() == EDead) mDead.push_back(a);
+	}
+	if (mPlayer->GetState() == EDead) mIsRunning = 0;
 	mActorsUpdating = 0;
 	for (auto a : mPending) AddActor(a);
 	mPending.clear();
+	for (auto a : mDead) delete a;
+	mDead.clear();
+	mWorld->Step(delta, mVelIter, mPosIter);
 	mCamera->Update(delta);
 }
 
@@ -221,7 +230,6 @@ bool Game::LoadLevel(const std::string& file)
 			{
 			case 'P':
 			{
-				mPlayer = new Player(this);
 				mPlayer->SetPos(pos);
 				break;
 			}

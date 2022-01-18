@@ -30,6 +30,7 @@ public:
 
 	void LoadTex(const std::string& file);
 	
+	State GetState() const { return mState; }
 	int GetOrder() const { return mOrder; }
 	class Game* GetGame() const { return mGame; }
 	const b2Vec2 GetPos() const { return mPos; }

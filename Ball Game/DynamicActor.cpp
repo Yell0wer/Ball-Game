@@ -10,6 +10,11 @@ DynamicActor::DynamicActor(class Game* game) :
 	mBody = mGame->GetWorld()->CreateBody(&bodyDef);
 }
 
+DynamicActor::~DynamicActor()
+{
+	mGame->GetWorld()->DestroyBody(mBody);
+}
+
 void DynamicActor::UpdateTrans()
 {
 	mPos.x = mBody->GetPosition().x;

@@ -4,6 +4,7 @@ class DynamicActor : public Actor
 {
 public:
 	DynamicActor(class Game* game);
+	~DynamicActor();
 
 	b2Body* GetBody() const { return mBody; }
 

@@ -8,6 +8,6 @@ void ContactListener::PreSolve(b2Contact* contact, const b2Manifold* oldManifold
 
 	uintptr_t actorA = bodyA->GetUserData().pointer;
 	uintptr_t actorB = bodyB->GetUserData().pointer;
-	if (actorA) reinterpret_cast<class Player*>(actorA)->OnCollision(velB.LengthSquared() * bodyB->GetMass() / 2.f, actorB);
-	if (actorB) reinterpret_cast<class Player*>(actorB)->OnCollision(velA.LengthSquared() * bodyA->GetMass() / 2.f, actorA);
+	if (actorA) reinterpret_cast<class Character*>(actorA)->OnCollision(velB.LengthSquared() * bodyB->GetMass() / 2.f, actorB);
+	if (actorB) reinterpret_cast<class Character*>(actorB)->OnCollision(velA.LengthSquared() * bodyA->GetMass() / 2.f, actorA);
 }

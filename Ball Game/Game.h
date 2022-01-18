@@ -43,8 +43,9 @@ private:
 	class VertexArray* mSquare;
 	bool mIsRunning;
 	std::vector<class Actor*> mActors;
-	bool mActorsUpdating;
 	std::vector<class Actor*> mPending;
+	std::vector<class Actor*> mDead;
+	bool mActorsUpdating;
 
 	ContactListener* mContact; // temp
 

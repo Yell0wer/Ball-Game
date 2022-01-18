@@ -32,6 +32,7 @@ typedef unsigned int uint;
 #include "Actor.h"
 #include "DynamicActor.h"
 #include "StaticActor.h"
+#include "Character.h"
 #include "Texture.h"
 #include "Projectile.h"
 #include "Player.h"

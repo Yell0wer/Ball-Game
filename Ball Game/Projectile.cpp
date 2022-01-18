@@ -18,9 +18,5 @@ void Projectile::UpdateActor(float delta)
 {
 	UpdateTrans();
 	mTimer += delta;
-	if (mTimer > mLifespan)
-	{
-		mGame->GetWorld()->DestroyBody(mBody);
-		delete this;
-	}
+	if (mTimer > mLifespan) mState = EDead;
 }
