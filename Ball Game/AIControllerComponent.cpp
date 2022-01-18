@@ -10,6 +10,7 @@ AIControllerComponent::AIControllerComponent(class Enemy* actor) :
 
 void AIControllerComponent::Update(float delta)
 {
+	mOwner->GetAnim()->PlayAnimation("idle" + mOwner->GetFacing(), 0, 0);
 	mTimer += delta;
 	b2Vec2 toPlayer = mOwner->GetGame()->GetPlayer()->GetPos() - mOwner->GetPos();
 	if (toPlayer.Length() <= 10.f)

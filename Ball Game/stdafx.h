@@ -47,5 +47,5 @@ typedef unsigned int uint;
 #include "AIControllerComponent.h"
 #include "Particle.h"
 
-// TODO: bg particlefx ui audio enemymovement?
+// TODO: bg ui audio enemymovement?
 // organize headers?

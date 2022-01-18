@@ -25,6 +25,5 @@ Enemy::Enemy(class Game* game) :
 
 void Enemy::UpdateActor(float delta)
 {
-	mAnim->PlayAnimation("idle" + GetFacing(), 0, 0);
 	Character::UpdateActor(delta);
 }

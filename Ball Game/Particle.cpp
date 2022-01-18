@@ -16,7 +16,7 @@ Particle::Particle(class Game* game, const std::string& name, int fps, int frame
 	}
 	mAnim->AddAnimation(name, a);
 	mAnim->PlayAnimation(name, 1, 0);
-	mPos = pos;
+	SetPos(pos);
 	ComputeWorldTransform();
 }
 
