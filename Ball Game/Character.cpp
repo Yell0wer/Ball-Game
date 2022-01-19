@@ -26,7 +26,7 @@ void Character::Draw()
 
 void Character::OnCollision(float impact, uintptr_t obj)
 {
-	if (dynamic_cast<DynamicActor*>((Actor*)obj))
+	if (dynamic_cast<Projectile*>((Actor*)obj))
 	{
 		float dmg = std::max(0.f, impact / 10.f - 5.f);
 		if (dmg)

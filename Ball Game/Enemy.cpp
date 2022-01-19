@@ -9,15 +9,15 @@ Enemy::Enemy(class Game* game) :
 	mHealth = mBody->GetMass() * 127.3239518f; // funny constant
 
 	// idle
-	LoadAnim("char", "idle", 10, 4);
+	LoadAnim("enemy", "idle", 10, 4);
 	// float
-	LoadAnim("char", "float", 50, 1);
+	LoadAnim("enemy", "float", 50, 1);
 	// walk
-	LoadAnim("char", "walk", 24, 7);
+	LoadAnim("enemy", "walk", 24, 7);
 	// jump
-	LoadAnim("char", "jump", 40, 6);
+	LoadAnim("enemy", "jump", 40, 6);
 	// land
-	LoadAnim("char", "land", 60, 5);
+	LoadAnim("enemy", "land", 60, 5);
 
 	AddComponent(new AIControllerComponent(this));
 }

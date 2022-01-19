@@ -5,7 +5,7 @@ AIControllerComponent::AIControllerComponent(class Enemy* actor) :
 {
 	mCooldown = 3.f;
 
-	mShootPower = 25.f;
+	mShootPower = 23.f;
 }
 
 void AIControllerComponent::Update(float delta)

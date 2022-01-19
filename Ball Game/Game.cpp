@@ -223,7 +223,7 @@ bool Game::LoadLevel(const std::string& file)
 			else if (block != "")
 			{
 				Block* b = new Block(this, static_cast<float>(block.size()), 1.f, pos, block + '\n', "demo-walls"); // todo change to border
-				b->SetPos(b2Vec2(static_cast<float>((j + j - block.size()) / 2.f), static_cast<float>(-i)));
+				b->SetPos(b2Vec2(static_cast<float>((j + j - block.size()) / 2.f) - 0.5f, static_cast<float>(-i)));
 				block = "";
 			}
 			switch (mLevel[i][j])

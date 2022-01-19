@@ -42,8 +42,10 @@ void ControllerComponent::Shoot(b2Vec2 dir)
 		RayCastCallback rcc;
 		b2Vec2 spawn = mOwner->GetPos();
 		mOwner->GetGame()->GetWorld()->RayCast(&rcc, mOwner->GetPos(), spawn + dir);
-		dir *= 0.9f;
+		dir *= 0.8f;
 		spawn += dir;
+		if (dynamic_cast<Player*>(mOwner)) new Particle(mOwner->GetGame(), "pop-r", 24, 5, spawn);
+		if (dynamic_cast<Enemy*>(mOwner)) new Particle(mOwner->GetGame(), "pop-p", 24, 5, spawn);
 		dir.Normalize();
 		if (!rcc.m_fixture)
 		{

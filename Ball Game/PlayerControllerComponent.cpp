@@ -9,7 +9,7 @@ PlayerControllerComponent::PlayerControllerComponent(class Player* actor) :
 	SetRight(SDL_SCANCODE_D);
 	SetShoot(SDL_SCANCODE_SPACE);
 
-	mShootPower = 40.f;
+	mShootPower = 30.f;
 }
 
 void PlayerControllerComponent::ProcessInput(const uint8_t* keyState)
@@ -22,7 +22,7 @@ void PlayerControllerComponent::Update(float delta) // todo encapsulate constant
 {
 	b2Body* body = mOwner->GetBody();
 	mIsGrounded = mOwner->IsGrounded(0.2f, 0.5f);
-	mJumpGrounded = mOwner->IsGrounded(0.9f, 0.6f);
+	mJumpGrounded = mOwner->IsGrounded(0.5f, 0.6f);
 	mTimer += delta;
 
 	if (mIsGrounded) mOwner->GetAnim()->PlayAnimation("idle" + mOwner->GetFacing(), 0, 0);
@@ -70,6 +70,7 @@ void PlayerControllerComponent::ComputeMousePos(const uint8_t* keyState)
 	mMouseY = static_cast<float>(mOwner->GetGame()->GetWindowHeight()) / 2.f - mMouseY;
 	mMouseY /= 64.f;
 	mToMouse = b2Vec2(mMouseX, mMouseY) + mOwner->GetGame()->GetCamera()->GetPos() - mOwner->GetPos();
+	printf("%f %f\n", mToMouse.x, mToMouse.y);
 	mToMouse.Normalize();
 }
 
