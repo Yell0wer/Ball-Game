@@ -6,7 +6,7 @@ Projectile::Projectile(class Game* game, class Character* owner, b2Vec2 pos, b2V
 	mLifespan(3.f),
 	mTimer(0.f)
 {
-	SetCircle(0.25f, 2.f, 1.f);
+	SetCircle(0.25f, 2.f, 0.f);
 	mBody->GetFixtureList()->SetRestitution(0.8f);
 	mBody->SetBullet(1);
 	mBody->SetLinearVelocity(vel);

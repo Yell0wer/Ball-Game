@@ -12,11 +12,14 @@ void AIControllerComponent::Update(float delta)
 {
 	mOwner->GetAnim()->PlayAnimation("idle" + mOwner->GetFacing(), 0, 0);
 	mTimer += delta;
-	b2Vec2 toPlayer = mOwner->GetGame()->GetPlayer()->GetPos() - mOwner->GetPos();
-	if (toPlayer.Length() <= 10.f)
+	b2Vec2 toPlayerUnit = mOwner->GetGame()->GetPlayer()->GetPos() - mOwner->GetPos();
+	b2Vec2 toPlayer = toPlayerUnit;
+	toPlayerUnit.Normalize();
+	RayCastCallback rcc;
+	mOwner->GetGame()->GetWorld()->RayCast(&rcc, mOwner->GetPos(), mOwner->GetGame()->GetPlayer()->GetPos() - toPlayerUnit);
+	if (toPlayer.Length() <= 10.f && !rcc.m_fixture)
 	{
-		toPlayer.Normalize();
-		toPlayer.y += 0.2f;
-		Shoot(toPlayer);
+		toPlayerUnit.y += 0.2f;
+		Shoot(toPlayerUnit);
 	}
 }

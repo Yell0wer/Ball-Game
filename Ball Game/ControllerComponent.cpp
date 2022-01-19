@@ -19,8 +19,8 @@ void ControllerComponent::Move(bool l, b2Body* body)
 	mOwner->SetCircle(0.5f, 1.f, 0.f);
 	if (body->GetLinearVelocity().x >= -mSpeedLim && l) body->ApplyForceToCenter(-mAcceleration, 1);
 	if (body->GetLinearVelocity().x <= mSpeedLim && !l) body->ApplyForceToCenter(mAcceleration, 1);
-	if (body->GetLinearVelocity().x > 0.1f) mOwner->SetFacing(0);
-	if (body->GetLinearVelocity().x < -0.1f) mOwner->SetFacing(1);
+	if (body->GetLinearVelocity().x > -0.1f && !l) mOwner->SetFacing(l);
+	if (body->GetLinearVelocity().x < 0.1f && l) mOwner->SetFacing(l);
 	if (mIsGrounded) mOwner->GetAnim()->PlayAnimation("walk" + mOwner->GetFacing(), 1, 1);
 }
 
