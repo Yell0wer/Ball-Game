@@ -69,11 +69,14 @@ bool Game::Initialize()
 	mWorld->SetContactListener(mContact); // temp
 
 	Actor* bg = new Actor(this);
-	bg->LoadTex("Assets/bg/night-sky.png");
-	bg->SetFollow(1);
+	bg->LoadTex("Assets/bg/dark.png");
+	bg->SetPos(b2Vec2(12.f, -4.5f));
+	Actor* bg1 = new Actor(this);
+	bg1->LoadTex("Assets/bg/dark.png");
+	bg1->SetPos(b2Vec2(37.f, -4.5f));
 
 	mPlayer = new Player(this);
-	LoadLevel("Levels/1.txt");
+	LoadLevel("Levels/demo.txt");
 
 	mCamera = new Camera(this);
 
@@ -123,7 +126,7 @@ void Game::ProcessInput()
 void Game::UpdateGame()
 {
 	// limit framerate (15 fps)
-	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTickCount + 16));
+	while (!SDL_TICKS_PASSED(SDL_GetTicks(), mTickCount + 20));
 	// get delta 
 	float delta = (SDL_GetTicks() - mTickCount) / 1000.f;
 	// clamp delta  value
