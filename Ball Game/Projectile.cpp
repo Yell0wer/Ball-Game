@@ -25,7 +25,7 @@ void Projectile::UpdateActor(float delta)
 
 void Projectile::OnCollision(float impact, uintptr_t ptr)
 {
-	int dmg = std::max(0.f, mBody->GetLinearVelocity().LengthSquared() * mBody->GetMass() / 10.f - 5.f);
+	float dmg = std::max(0.f, mBody->GetLinearVelocity().LengthSquared() * mBody->GetMass() / 10.f - 5.f);
 	Character* obj = dynamic_cast<Character*>((Actor*)ptr);
 	if (obj && dmg)
 	{

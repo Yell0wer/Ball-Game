@@ -25,9 +25,9 @@ bool Game::Initialize()
 	// hardware acceleration
 	SDL_GL_SetAttribute(SDL_GL_ACCELERATED_VISUAL, 1);
 	// create sdl window
-	mWindowWidth = 1024;
-	mWindowHeight = 768;
-	mWindow = SDL_CreateWindow("Carl's Fantastic Ball Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, mWindowWidth, mWindowHeight, SDL_WINDOW_OPENGL);
+	mWindowWidth = 1920;
+	mWindowHeight = 1080;
+	mWindow = SDL_CreateWindow("Carl's Fantastic Ball Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, mWindowWidth, mWindowHeight, SDL_WINDOW_OPENGL | SDL_WINDOW_FULLSCREEN);
 	if (!mWindow)
 	{
 		SDL_Log("Failed creating window: %s\n", SDL_GetError());
@@ -68,8 +68,12 @@ bool Game::Initialize()
 	mContact = new ContactListener();
 	mWorld->SetContactListener(mContact); // temp
 
+	Actor* bg = new Actor(this);
+	bg->LoadTex("Assets/bg/night-sky.png");
+	bg->SetFollow(1);
+
 	mPlayer = new Player(this);
-	LoadLevel("Levels/demo.txt");
+	LoadLevel("Levels/1.txt");
 
 	mCamera = new Camera(this);
 
@@ -195,7 +199,7 @@ bool Game::LoadShaders()
 	mShader = new Shader();
 	if (!mShader->Load("Basic.vert", "Basic.frag")) return 0;
 	mShader->SetActive();
-	mShader->SetMatrixUniform("uViewTransform", Matrix4::CreateScale(48.f) * Matrix4::CreateSimpleViewProj(static_cast<float>(mWindowWidth), static_cast<float>(mWindowHeight)));
+	mShader->SetMatrixUniform("uViewTransform", Matrix4::CreateScale(64.f) * Matrix4::CreateSimpleViewProj(static_cast<float>(mWindowWidth), static_cast<float>(mWindowHeight)));
 	return 1;
 }
 
@@ -228,6 +232,12 @@ bool Game::LoadLevel(const std::string& file)
 			}
 			switch (mLevel[i][j])
 			{
+			case '@':
+			{
+				Block* b = new Block(this, 1.f, 1.f, pos, "", "blank");
+				b->SetPos(pos);
+				break;
+			}
 			case 'P':
 			{
 				mPlayer->SetPos(pos);

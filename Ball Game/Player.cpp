@@ -23,5 +23,6 @@ Player::Player(class Game* game) :
 
 void Player::UpdateActor(float delta)
 {
+	printf("%f\n", mHealth);
 	Character::UpdateActor(delta);
 }

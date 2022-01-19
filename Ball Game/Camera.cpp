@@ -17,11 +17,13 @@ void Camera::Update(float delta)
 	mVel.x = std::min(mVel.x, mVelLim.x);
 	mVel.x = std::max(mVel.x, -mVelLim.x);
 
+	/* bruh
 	if (toPlayer.y > 5.f) mVel.y += 32.f * delta;
-	if (toPlayer.x < -5.f) mVel.x -= 32.f * delta;
-	if (toPlayer.x <= 3.f && toPlayer.x >= -3.f) mVel.y *= 0.95f;
+	if (toPlayer.y < -5.f) mVel.y -= 32.f * delta;
+	if (toPlayer.y <= 3.f && toPlayer.y >= -3.f) mVel.y *= 0.95f;
 	mVel.y = std::min(mVel.y, mVelLim.y);
 	mVel.y = std::max(mVel.y, -mVelLim.y);
+	*/ 
 
 	mPos.x += mVel.x * delta;
 	mPos.y += mVel.y * delta;

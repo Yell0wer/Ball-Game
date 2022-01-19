@@ -41,6 +41,7 @@ void Actor::Update(float delta)
 		UpdateComponents(delta);
 		ComputeWorldTransform();
 	}
+	if (mPos.y < -80.f) mState = EDead;
 }
 
 void Actor::UpdateComponents(float delta)
