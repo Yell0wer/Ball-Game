@@ -6,7 +6,7 @@ ControllerComponent::ControllerComponent(class Character* actor) :
 	mShootPower(35.f),
 	mNumJumps(1),
 	mCooldown(0.5f),
-	mTimer(0.f),
+	mShootTimer(0.f),
 	mJumpTimer(0.f),
 	mAcceleration(b2Vec2(42.f, 0.f))
 {
@@ -37,7 +37,7 @@ void ControllerComponent::Jump(float delta, b2Body* body)
 
 void ControllerComponent::Shoot(b2Vec2 dir)
 {
-	if (mTimer > mCooldown)
+	if (mShootTimer > mCooldown)
 	{
 		RayCastCallback rcc;
 		b2Vec2 spawn = mOwner->GetPos();
@@ -51,7 +51,7 @@ void ControllerComponent::Shoot(b2Vec2 dir)
 		{
 			dir *= mShootPower;
 			new Projectile(mOwner->GetGame(), mOwner, spawn, dir);
-			mTimer = 0.f;
+			mShootTimer = 0.f;
 		}
 	}
 }

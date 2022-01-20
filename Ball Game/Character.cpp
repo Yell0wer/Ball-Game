@@ -10,11 +10,11 @@ Character::Character(class Game* game) :
 
 void Character::UpdateActor(float delta)
 {
-	if (mHealth <= 0.f)
+	/*if (mHealth <= 0.f)
 	{
 		mState = EDead;
 		if(dynamic_cast<Enemy*>(this)) new Particle(mGame, "death-p", 24, 11, mPos);
-	}
+	}*/
 	mAnim->Update(delta);
 	UpdateTrans();
 }

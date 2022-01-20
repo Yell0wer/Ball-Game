@@ -25,7 +25,7 @@ void PlayerControllerComponent::Update(float delta) // todo encapsulate constant
 	b2Body* body = mOwner->GetBody();
 	mIsGrounded = mOwner->IsGrounded(0.2f, 0.5f);
 	mJumpGrounded = mOwner->IsGrounded(0.5f, 0.6f);
-	mTimer += delta;
+	mShootTimer += delta;
 
 	if (mIsGrounded) mOwner->GetAnim()->PlayAnimation("idle" + mOwner->GetFacing(), 0, 0);
 	else mOwner->GetAnim()->PlayAnimation("float" + mOwner->GetFacing(), 0, 0);
@@ -68,9 +68,9 @@ void PlayerControllerComponent::ComputeMousePos(const uint8_t* keyState)
 	mMouseX = static_cast<float>(x);
 	mMouseY = static_cast<float>(y);
 	mMouseX -= static_cast<float>(mOwner->GetGame()->GetWindowWidth()) / 2.f;
-	mMouseX /= 64.f;
+	mMouseX /= 48.f;
 	mMouseY = static_cast<float>(mOwner->GetGame()->GetWindowHeight()) / 2.f - mMouseY;
-	mMouseY /= 64.f;
+	mMouseY /= 48.f;
 	mToMouse = b2Vec2(mMouseX, mMouseY) + mOwner->GetGame()->GetCamera()->GetPos() - mOwner->GetPos();
 	mToMouse.Normalize();
 }

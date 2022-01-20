@@ -1,5 +1,12 @@
 #pragma once
 
+enum AIState
+{
+	ERest,
+	EChase,
+	EAttack
+};
+
 class AIControllerComponent : public ControllerComponent
 {
 public:
@@ -8,6 +15,7 @@ public:
 	void Update(float delta) override;
 
 private:
-
+	AIState mState;
+	bool mMoving;
 };
 

@@ -7,7 +7,9 @@ public:
 
 	void UpdateActor(float delta) override;
 
-private:
+	void SetPost(const b2Vec2& post) { mPost = post; }
 
+private:
+	b2Vec2 mPost;
 };
 

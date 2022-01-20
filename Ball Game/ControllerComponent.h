@@ -19,7 +19,7 @@ protected:
 	void Shoot(b2Vec2 dir);
 
 	b2Vec2 mAcceleration;
-	float mCooldown, mTimer, mJumpTimer;
+	float mCooldown, mShootTimer, mJumpTimer;
 	bool mIsGrounded, mWasGrounded, mJumpGrounded;
 	int mNumJumps;
 	class Character* mOwner;
